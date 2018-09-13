@@ -4,7 +4,7 @@ extern fn main_impala() -> () {
 	}
 
 	with group("assertions") {
-		with context("bool") {
+		with subgroup("bool") {
    			with assert_true()     { 1 == 1 }
 	        with assert_false()    { 1 == 2 }
 	        with assert_bool(true) { 1 == 1 }

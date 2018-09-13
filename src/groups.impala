@@ -21,7 +21,7 @@ fn group(name: &[u8], body: fn() -> ()) -> () {
 	print_string("\n\n");
 }
 
-fn context(name: &[u8], body: fn() -> ()) -> () {
+fn subgroup(name: &[u8], body: fn() -> ()) -> () {
 	print_string("  > ");
 	print_string(name);
 	print_string("\n");
