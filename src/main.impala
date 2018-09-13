@@ -1,18 +1,13 @@
 extern fn main_impala() -> () {
-	with facts("foo/bar.impala") {
-		with context("lorem") {
-			fact();
-			fact();
-		}
-
-		with context("ipsum") {
-			fact();
-		}
+	with facts("pending") {
+		pending("my_function1");
 	}
 
-	with facts("foo/baz.impala") {
-		with context("dolor") {
-			fact();
+	with facts("assertions") {
+		with context("bool") {
+   			with assert_true()     { 1 == 1 }
+	        with assert_false()    { 1 == 2 }
+	        with assert_bool(true) { 1 == 1 }
 		}
 	}
 }
