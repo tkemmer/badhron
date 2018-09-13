@@ -20,3 +20,26 @@ fn assert_true(body: fn() -> bool) -> () {
 fn assert_false(body: fn() -> bool) -> () {
     assert_bool(false, body);
 }
+
+
+// int
+
+fn assert_i64(exp: i64, body: fn() -> i64) -> () {
+    if exp == body() {
+        rstack.passed();
+    } else {
+        rstack.failed();
+    }
+}
+
+fn assert_i32(exp: i32, body: fn() -> i32) -> () {
+    assert_i64(exp as i64, || body() as i64);
+}
+
+fn assert_i16(exp: i16, body: fn() -> i16) -> () {
+    assert_i64(exp as i64, || body() as i64);
+}
+
+fn assert_i8(exp: i8, body: fn() -> i8) -> () {
+    assert_i64(exp as i64, || body() as i64);
+}

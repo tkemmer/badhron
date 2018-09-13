@@ -9,5 +9,12 @@ extern fn main_impala() -> () {
 	        with assert_false()    { 1 == 2 }
 	        with assert_bool(true) { 1 == 1 }
 		}
+
+		with subgroup("int") {
+		    with assert_i64(42i64) { (2 * 21) as i64 }
+		    with assert_i32(42   ) {  2 * 21         }
+		    with assert_i16(42i16) { (2 * 21) as i16 }
+		    with assert_i8 (42i8 ) { (2 * 21) as i8  }
+		}
 	}
 }
