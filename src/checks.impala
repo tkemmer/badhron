@@ -1,23 +1,10 @@
+// pending
 fn pending(name: &[u8]) -> () {
     rstack.pending();
 }
 
-fn assert_true(body: fn() -> bool) -> () {
-    if body() {
-        rstack.passed();
-    } else {
-        rstack.failed();
-    }
-}
 
-fn assert_false(body: fn() -> bool) -> () {
-    if body() {
-        rstack.failed();
-    } else {
-        rstack.passed();
-    }
-}
-
+// bool
 fn assert_bool(exp: bool, body: fn() -> bool) -> () {
     if exp == body() {
         rstack.passed();
@@ -26,3 +13,10 @@ fn assert_bool(exp: bool, body: fn() -> bool) -> () {
     }
 }
 
+fn assert_true(body: fn() -> bool) -> () {
+    assert_bool(true, body);
+}
+
+fn assert_false(body: fn() -> bool) -> () {
+    assert_bool(false, body);
+}
