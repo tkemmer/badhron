@@ -1,0 +1,53 @@
+struct CheckResult {
+	passed:  i32,
+	failed:  i32,
+	pending: i32
+}
+
+struct ResultStack {
+	push:    fn() -> (),
+	pop:     fn() -> CheckResult,
+	passed:  fn() -> (),
+	failed:  fn() -> (),
+	pending: fn() -> (),
+}
+
+struct ResultStackElement {
+	result: CheckResult,
+	next:  &ResultStackElement
+}
+
+static default_result = CheckResult{
+	passed:  0,
+	failed:  0,
+	pending: 0
+};
+
+static mut rstack_head = ResultStackElement{
+	result: default_result,
+	next:   0 as &ResultStackElement
+};
+
+static rstack = ResultStack{
+	push: || {
+		let new_head = ResultStackElement{
+			result: default_result,
+			next:  &rstack_head
+		};
+		rstack_head = new_head;
+	},
+
+	pop: || {
+		if rstack_head.next == 0 as &ResultStackElement {
+			default_result
+		} else {
+			let old_head = rstack_head;
+			rstack_head = *rstack_head.next;
+			old_head.result
+		}
+	},
+
+	passed:  || { rstack_head.result.passed++;  },
+	failed:  || { rstack_head.result.failed++;  },
+	pending: || { rstack_head.result.pending++; }
+};
