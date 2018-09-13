@@ -1,9 +1,9 @@
 extern fn main_impala() -> () {
-	with facts("pending") {
+	with group("pending") {
 		pending("my_function1");
 	}
 
-	with facts("assertions") {
+	with group("assertions") {
 		with context("bool") {
    			with assert_true()     { 1 == 1 }
 	        with assert_false()    { 1 == 2 }

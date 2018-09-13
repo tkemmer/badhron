@@ -1,4 +1,4 @@
-fn facts(name: &[u8], body: fn() -> ()) -> () {
+fn group(name: &[u8], body: fn() -> ()) -> () {
 	print_string(name);
 	print_string("\n");
 
