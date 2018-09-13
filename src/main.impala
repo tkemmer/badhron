@@ -16,5 +16,12 @@ extern fn main_impala() -> () {
 		    with assert_i16(42i16) { (2 * 21) as i16 }
 		    with assert_i8 (42i8 ) { (2 * 21) as i8  }
 		}
+
+		with subgroup("uint") {
+		    with assert_u64(42u64) { (2 * 21) as u64 }
+		    with assert_u32(42u32) { (2 * 21) as u32 }
+		    with assert_u16(42u16) { (2 * 21) as u16 }
+		    with assert_u8 (42u8 ) { (2 * 21) as u8  }
+		}
 	}
 }

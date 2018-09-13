@@ -43,3 +43,26 @@ fn assert_i16(exp: i16, body: fn() -> i16) -> () {
 fn assert_i8(exp: i8, body: fn() -> i8) -> () {
     assert_i64(exp as i64, || body() as i64);
 }
+
+
+// uint
+
+fn assert_u64(exp: u64, body: fn() -> u64) -> () {
+    if exp == body() {
+        rstack.passed();
+    } else {
+        rstack.failed();
+    }
+}
+
+fn assert_u32(exp: u32, body: fn() -> u32) -> () {
+    assert_u64(exp as u64, || body() as u64);
+}
+
+fn assert_u16(exp: u16, body: fn() -> u16) -> () {
+    assert_u64(exp as u64, || body() as u64);
+}
+
+fn assert_u8(exp: u8, body: fn() -> u8) -> () {
+    assert_u64(exp as u64, || body() as u64);
+}
