@@ -66,3 +66,27 @@ fn assert_u16(exp: u16, body: fn() -> u16) -> () {
 fn assert_u8(exp: u8, body: fn() -> u8) -> () {
     assert_u64(exp as u64, || body() as u64);
 }
+
+
+// float
+static rtol_f64 = 1.49e-8;
+static rtol_f32 = 3.45e-5 as f32;
+static rtol_f16 = 0.03125 as f16;
+
+fn assert_f64(exp: f64, body: fn() -> f64) -> () {
+    let obs = body();
+    if math.fabs(exp - obs) <= rtol_f64 * math.fmax(math.fabs(exp), math.fabs(obs)) {
+        rstack.passed();
+    } else {
+        rstack.failed();
+    }
+}
+
+fn assert_f32(exp: f32, body: fn() -> f32) -> () {
+    let obs = body();
+    if math.fabsf(exp - obs) <= rtol_f32 * math.fmaxf(math.fabsf(exp), math.fabsf(obs)) {
+        rstack.passed();
+    } else {
+        rstack.failed();
+    }
+}

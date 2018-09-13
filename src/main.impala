@@ -23,5 +23,10 @@ extern fn main_impala() -> () {
 		    with assert_u16(42u16) { (2 * 21) as u16 }
 		    with assert_u8 (42u8 ) { (2 * 21) as u8  }
 		}
+
+		with subgroup("float") {
+		    with assert_f64 (42.0       ) {  4.0 * 10.5         }
+		    with assert_f32 (42.0 as f32) { (4.0 * 10.5) as f32 }
+		}
 	}
 }
