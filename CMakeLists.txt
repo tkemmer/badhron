@@ -11,6 +11,10 @@ endif()
 anydsl_runtime_wrap(badhron_PROGRAM IMPALA_FLAGS ${badhron_IMPALA_FLAGS} FILES
 	src/facts.impala
 	src/results.impala
+	src/main.impala
 )
 add_library(badhron SHARED ${badhron_PROGRAM})
 target_link_libraries(badhron ${AnyDSL_runtime_LIBRARIES})
+
+add_executable(badhron_test src/main.cpp)
+target_link_libraries(badhron_test badhron)

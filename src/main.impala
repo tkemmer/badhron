@@ -1,0 +1,18 @@
+extern fn main_impala() -> () {
+	with facts("foo/bar.impala") {
+		with context("lorem") {
+			fact();
+			fact();
+		}
+
+		with context("ipsum") {
+			fact();
+		}
+	}
+
+	with facts("foo/baz.impala") {
+		with context("dolor") {
+			fact();
+		}
+	}
+}
