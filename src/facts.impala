@@ -9,6 +9,15 @@ fn facts(name: &[u8], body: fn() -> ()) -> () {
 	print_string("----------\n");
 	print_string("Total facts: ");
 	print_i32(results.passed + results.failed + results.pending);
+	print_string("\n");
+	print_string(" - passed:   ");
+	print_i32(results.passed);
+	print_string("\n");
+	print_string(" - failed:   ");
+	print_i32(results.failed);
+	print_string("\n");
+	print_string(" - pending:  ");
+	print_i32(results.pending);
 	print_string("\n\n");
 }
 
