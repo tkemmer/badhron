@@ -27,7 +27,3 @@ fn context(name: &[u8], body: fn() -> ()) -> () {
 	print_string("\n");
 	body();
 }
-
-fn fact() -> () {
-	rstack.passed();
-}
