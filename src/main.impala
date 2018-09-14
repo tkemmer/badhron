@@ -5,28 +5,28 @@ extern fn main_impala() -> () {
 
 	with group("assertions") {
 		with subgroup("bool") {
-   			with assert_true()     { 1 == 1 }
-	        with assert_false()    { 1 == 2 }
-	        with assert_bool(true) { 1 == 1 }
+			with assert_true()     { 1 == 1 }
+			with assert_false()    { 1 == 2 }
+			with assert_bool(true) { 1 == 1 }
 		}
 
 		with subgroup("int") {
-		    with assert_i64(42i64) { (2 * 21) as i64 }
-		    with assert_i32(42   ) {  2 * 21         }
-		    with assert_i16(42i16) { (2 * 21) as i16 }
-		    with assert_i8 (42i8 ) { (2 * 21) as i8  }
+			with assert_i64(42i64) { (2 * 21) as i64 }
+			with assert_i32(42   ) {  2 * 21         }
+			with assert_i16(42i16) { (2 * 21) as i16 }
+			with assert_i8 (42i8 ) { (2 * 21) as i8  }
 		}
 
 		with subgroup("uint") {
-		    with assert_u64(42u64) { (2 * 21) as u64 }
-		    with assert_u32(42u32) { (2 * 21) as u32 }
-		    with assert_u16(42u16) { (2 * 21) as u16 }
-		    with assert_u8 (42u8 ) { (2 * 21) as u8  }
+			with assert_u64(42u64) { (2 * 21) as u64 }
+			with assert_u32(42u32) { (2 * 21) as u32 }
+			with assert_u16(42u16) { (2 * 21) as u16 }
+			with assert_u8 (42u8 ) { (2 * 21) as u8  }
 		}
 
 		with subgroup("float") {
-		    with assert_f64 (42.0       ) {  4.0 * 10.5         }
-		    with assert_f32 (42.0 as f32) { (4.0 * 10.5) as f32 }
+			with assert_f64 (42.0       ) {  4.0 * 10.5         }
+			with assert_f32 (42.0 as f32) { (4.0 * 10.5) as f32 }
 		}
 	}
 }
