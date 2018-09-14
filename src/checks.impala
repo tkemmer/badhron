@@ -73,8 +73,8 @@ fn assert_u8(exp: u8, body: fn() -> u8) -> () {
 // ====================================================================================================================
 // floating point numbers
 static rtol_f64 = 1.49e-8;
-static rtol_f32 = 3.45e-5 as f32;
-static rtol_f16 = 0.03125 as f16;
+static rtol_f32 = 3.45e-5f;
+static rtol_f16 = 0.03125h;
 
 fn assert_f64(exp: f64, body: fn() -> f64) -> () {
 	let obs = body();
