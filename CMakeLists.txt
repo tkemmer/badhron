@@ -5,6 +5,7 @@ find_package(AnyDSL_runtime REQUIRED)
 
 set(badhron_IMPALA_FLAGS "")
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+	set(CMAKE_CXX_FLAGS "-Wall -pedantic -fsanitize=address")
 	list(APPEND badhron_IMPALA_FLAGS "-emit-annotated" "-log-level" "debug")
 endif()
 
