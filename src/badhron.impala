@@ -23,21 +23,21 @@ struct Badhron {
 fn badhron_suite() -> Badhron {
 	let res = rstack; // TODO
 	Badhron {
-		group:        badhron_group,
-		subgroup:     badhron_subgroup,
-		pending:      |name|      badhron_pending(res, name),
-		assert_true:  |body|      badhron_assert_true(res, body),
-		assert_false: |body|      badhron_assert_false(res, body),
-		assert_bool:  |exp, body| badhron_assert_bool(res, exp, body),
-		assert_i64:   |exp, body| badhron_assert_i64(res, exp, body),
-		assert_i32:   |exp, body| badhron_assert_i32(res, exp, body),
-		assert_i16:   |exp, body| badhron_assert_i16(res, exp, body),
-		assert_i8:    |exp, body| badhron_assert_i8(res, exp, body),
-		assert_u64:   |exp, body| badhron_assert_u64(res, exp, body),
-		assert_u32:   |exp, body| badhron_assert_u32(res, exp, body),
-		assert_u16:   |exp, body| badhron_assert_u16(res, exp, body),
-		assert_u8:    |exp, body| badhron_assert_u8(res, exp, body),
-		assert_f64:   |exp, body| badhron_assert_f64(res, exp, body),
-		assert_f32:   |exp, body| badhron_assert_f32(res, exp, body)
+		group:        |name, body| badhron_group(res, name, body),
+		subgroup:                  badhron_subgroup,
+		pending:      |name|       badhron_pending(res, name),
+		assert_true:  |body|       badhron_assert_true(res, body),
+		assert_false: |body|       badhron_assert_false(res, body),
+		assert_bool:  |exp, body|  badhron_assert_bool(res, exp, body),
+		assert_i64:   |exp, body|  badhron_assert_i64(res, exp, body),
+		assert_i32:   |exp, body|  badhron_assert_i32(res, exp, body),
+		assert_i16:   |exp, body|  badhron_assert_i16(res, exp, body),
+		assert_i8:    |exp, body|  badhron_assert_i8(res, exp, body),
+		assert_u64:   |exp, body|  badhron_assert_u64(res, exp, body),
+		assert_u32:   |exp, body|  badhron_assert_u32(res, exp, body),
+		assert_u16:   |exp, body|  badhron_assert_u16(res, exp, body),
+		assert_u8:    |exp, body|  badhron_assert_u8(res, exp, body),
+		assert_f64:   |exp, body|  badhron_assert_f64(res, exp, body),
+		assert_f32:   |exp, body|  badhron_assert_f32(res, exp, body)
 	}
 }

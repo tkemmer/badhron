@@ -1,10 +1,10 @@
-fn badhron_group(name: &[u8], body: fn() -> ()) -> () {
+fn badhron_group(res: BadhronResultStack, name: &[u8], body: fn() -> ()) -> () {
 	print_string(name);
 	print_string("\n");
 
-	rstack.push();
+	res.push();
 	body();
-	let results = rstack.pop();
+	let results = res.pop();
 
 	print_string("----------\n");
 	print_string("Total facts: ");
