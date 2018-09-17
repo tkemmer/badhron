@@ -24,10 +24,10 @@ struct BadhronSuite {
 }
 
 fn badhron_suite() -> BadhronSuite {
-	let res = badhron_new_result_stack();
+	let res = badhron_new_result_handler();
 	BadhronSuite {
 		group:        |name, body| badhron_group(res, name, body),
-		subgroup:                  badhron_subgroup,
+		subgroup:     |name, body| badhron_subgroup(res, name, body),
 		pending:      |name|       badhron_pending(res, name),
 		assert_true:  |body|       badhron_assert_true(res, body),
 		assert_false: |body|       badhron_assert_false(res, body),

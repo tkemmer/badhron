@@ -1,10 +1,10 @@
-fn badhron_group(res: BadhronResultStack, name: &[u8], body: fn() -> ()) -> () {
+fn badhron_group(res: BadhronResultHandler, name: &[u8], body: fn() -> ()) -> () {
 	print_string(name);
 	print_string("\n");
 
-	res.push();
+	res.reset();
 	body();
-	let results = res.pop();
+	let results = res.total();
 
 	print_string("----------\n");
 	print_string("Total facts: ");
@@ -21,7 +21,8 @@ fn badhron_group(res: BadhronResultStack, name: &[u8], body: fn() -> ()) -> () {
 	print_string("\n\n");
 }
 
-fn badhron_subgroup(name: &[u8], body: fn() -> ()) -> () {
+fn badhron_subgroup(res: BadhronResultHandler, name: &[u8], body: fn() -> ()) -> () {
+	res.split();
 	print_string("  > ");
 	print_string(name);
 	print_string("\n");

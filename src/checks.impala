@@ -1,13 +1,13 @@
 // ====================================================================================================================
 // misc
-fn badhron_pending(res: BadhronResultStack, name: &[u8]) -> () {
+fn badhron_pending(res: BadhronResultHandler, name: &[u8]) -> () {
 	res.pending();
 }
 
 
 // ====================================================================================================================
 // bool
-fn badhron_assert_bool(res: BadhronResultStack, exp: bool, body: fn() -> bool) -> () {
+fn badhron_assert_bool(res: BadhronResultHandler, exp: bool, body: fn() -> bool) -> () {
 	if exp == body() {
 		res.passed();
 	} else {
@@ -15,18 +15,18 @@ fn badhron_assert_bool(res: BadhronResultStack, exp: bool, body: fn() -> bool) -
 	}
 }
 
-fn badhron_assert_true(res: BadhronResultStack, body: fn() -> bool) -> () {
+fn badhron_assert_true(res: BadhronResultHandler, body: fn() -> bool) -> () {
 	badhron_assert_bool(res, true, body);
 }
 
-fn badhron_assert_false(res: BadhronResultStack, body: fn() -> bool) -> () {
+fn badhron_assert_false(res: BadhronResultHandler, body: fn() -> bool) -> () {
 	badhron_assert_bool(res, false, body);
 }
 
 
 // ====================================================================================================================
 // signed integers
-fn badhron_assert_i64(res: BadhronResultStack, exp: i64, body: fn() -> i64) -> () {
+fn badhron_assert_i64(res: BadhronResultHandler, exp: i64, body: fn() -> i64) -> () {
 	if exp == body() {
 		res.passed();
 	} else {
@@ -34,22 +34,22 @@ fn badhron_assert_i64(res: BadhronResultStack, exp: i64, body: fn() -> i64) -> (
 	}
 }
 
-fn badhron_assert_i32(res: BadhronResultStack, exp: i32, body: fn() -> i32) -> () {
+fn badhron_assert_i32(res: BadhronResultHandler, exp: i32, body: fn() -> i32) -> () {
 	badhron_assert_i64(res, exp as i64, || body() as i64);
 }
 
-fn badhron_assert_i16(res: BadhronResultStack, exp: i16, body: fn() -> i16) -> () {
+fn badhron_assert_i16(res: BadhronResultHandler, exp: i16, body: fn() -> i16) -> () {
 	badhron_assert_i64(res, exp as i64, || body() as i64);
 }
 
-fn badhron_assert_i8(res: BadhronResultStack, exp: i8, body: fn() -> i8) -> () {
+fn badhron_assert_i8(res: BadhronResultHandler, exp: i8, body: fn() -> i8) -> () {
 	badhron_assert_i64(res, exp as i64, || body() as i64);
 }
 
 
 // ====================================================================================================================
 // unsigned integers
-fn badhron_assert_u64(res: BadhronResultStack, exp: u64, body: fn() -> u64) -> () {
+fn badhron_assert_u64(res: BadhronResultHandler, exp: u64, body: fn() -> u64) -> () {
 	if exp == body() {
 		res.passed();
 	} else {
@@ -57,15 +57,15 @@ fn badhron_assert_u64(res: BadhronResultStack, exp: u64, body: fn() -> u64) -> (
 	}
 }
 
-fn badhron_assert_u32(res: BadhronResultStack, exp: u32, body: fn() -> u32) -> () {
+fn badhron_assert_u32(res: BadhronResultHandler, exp: u32, body: fn() -> u32) -> () {
 	badhron_assert_u64(res, exp as u64, || body() as u64);
 }
 
-fn badhron_assert_u16(res: BadhronResultStack, exp: u16, body: fn() -> u16) -> () {
+fn badhron_assert_u16(res: BadhronResultHandler, exp: u16, body: fn() -> u16) -> () {
 	badhron_assert_u64(res, exp as u64, || body() as u64);
 }
 
-fn badhron_assert_u8(res: BadhronResultStack, exp: u8, body: fn() -> u8) -> () {
+fn badhron_assert_u8(res: BadhronResultHandler, exp: u8, body: fn() -> u8) -> () {
 	badhron_assert_u64(res, exp as u64, || body() as u64);
 }
 
@@ -74,7 +74,7 @@ fn badhron_assert_u8(res: BadhronResultStack, exp: u8, body: fn() -> u8) -> () {
 // floating point numbers
 // static rtol_f16 = 0.03125h;
 
-fn badhron_assert_f64(res: BadhronResultStack, exp: f64, body: fn() -> f64) -> () {
+fn badhron_assert_f64(res: BadhronResultHandler, exp: f64, body: fn() -> f64) -> () {
 	let math = cpu_intrinsics;
 	let rtol = 1.49e-8;
 	let obs = body();
@@ -85,7 +85,7 @@ fn badhron_assert_f64(res: BadhronResultStack, exp: f64, body: fn() -> f64) -> (
 	}
 }
 
-fn badhron_assert_f32(res: BadhronResultStack, exp: f32, body: fn() -> f32) -> () {
+fn badhron_assert_f32(res: BadhronResultHandler, exp: f32, body: fn() -> f32) -> () {
 	let math = cpu_intrinsics;
 	let rtol = 3.45e-5f;
 	let obs = body();
