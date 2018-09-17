@@ -1,4 +1,4 @@
-struct Badhron {
+struct BadhronSuite {
 	// context
 	group:        fn(&[u8], fn() -> ()) -> (),
 	subgroup:     fn(&[u8], fn() -> ()) -> (),
@@ -23,9 +23,9 @@ struct Badhron {
 	exitstatus:   fn() -> i32
 }
 
-fn badhron_suite() -> Badhron {
+fn badhron_suite() -> BadhronSuite {
 	let res = badhron_new_result_stack();
-	Badhron {
+	BadhronSuite {
 		group:        |name, body| badhron_group(res, name, body),
 		subgroup:                  badhron_subgroup,
 		pending:      |name|       badhron_pending(res, name),
