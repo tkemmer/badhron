@@ -9,7 +9,6 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 anydsl_runtime_wrap(badhron_PROGRAM IMPALA_FLAGS ${badhron_IMPALA_FLAGS} FILES
-	src/backend.impala
 	src/results.impala
 	src/checks.impala
 	src/groups.impala
