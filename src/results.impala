@@ -5,11 +5,12 @@ struct BadhronCheckResult {
 }
 
 struct BadhronResultStack {
-	push:    fn() -> (),
-	pop:     fn() -> BadhronCheckResult,
-	passed:  fn() -> (),
-	failed:  fn() -> (),
-	pending: fn() -> (),
+	push:       fn() -> (),
+	pop:        fn() -> BadhronCheckResult,
+	passed:     fn() -> (),
+	failed:     fn() -> (),
+	pending:    fn() -> (),
+	exitstatus: fn() -> i32
 }
 
 struct BadhronResultStackElement {
@@ -30,6 +31,7 @@ fn badhron_new_result_stack() -> BadhronResultStack {
 		result: badhron_new_check_result(),
 		next:   0 as &BadhronResultStackElement
 	};
+	let mut estat = 0;
 	BadhronResultStack {
 		push: || {
 			let new_head = BadhronResultStackElement{
@@ -50,7 +52,9 @@ fn badhron_new_result_stack() -> BadhronResultStack {
 		},
 
 		passed:  || { head.result.passed++;  },
-		failed:  || { head.result.failed++;  },
-		pending: || { head.result.pending++; }
+		failed:  || { head.result.failed++; estat = 1; },
+		pending: || { head.result.pending++; },
+
+		exitstatus: || estat
 	}
 }

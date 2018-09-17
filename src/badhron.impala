@@ -17,7 +17,10 @@ struct Badhron {
 	assert_u16:   fn(u16,  fn() -> u16)  -> (),
 	assert_u8:    fn(u8,   fn() -> u8)   -> (),
 	assert_f64:   fn(f64,  fn() -> f64)  -> (),
-	assert_f32:   fn(f32,  fn() -> f32)  -> ()
+	assert_f32:   fn(f32,  fn() -> f32)  -> (),
+
+	// misc
+	exitstatus:   fn() -> i32
 }
 
 fn badhron_suite() -> Badhron {
@@ -38,6 +41,7 @@ fn badhron_suite() -> Badhron {
 		assert_u16:   |exp, body|  badhron_assert_u16(res, exp, body),
 		assert_u8:    |exp, body|  badhron_assert_u8(res, exp, body),
 		assert_f64:   |exp, body|  badhron_assert_f64(res, exp, body),
-		assert_f32:   |exp, body|  badhron_assert_f32(res, exp, body)
+		assert_f32:   |exp, body|  badhron_assert_f32(res, exp, body),
+		exitstatus:                res.exitstatus
 	}
 }
