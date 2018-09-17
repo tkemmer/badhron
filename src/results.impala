@@ -1,5 +1,5 @@
 // ====================================================================================================================
-//  result
+// check result
 struct BadhronCheckResult {
 	passed:  i32,
 	failed:  i32,
@@ -11,6 +11,23 @@ fn badhron_new_check_result() -> BadhronCheckResult {
 		passed:  0,
 		failed:  0,
 		pending: 0
+	}
+}
+
+
+// ====================================================================================================================
+// suite result
+struct BadhronSuiteResult {
+	total_result: BadhronCheckResult,
+	split_result: BadhronCheckResult,
+	exitstatus:   i32
+}
+
+fn badhron_new_suite_result() -> BadhronSuiteResult {
+	BadhronSuiteResult{
+		total_result: badhron_new_check_result(),
+		split_result: badhron_new_check_result(),
+		exitstatus:   0
 	}
 }
 
@@ -28,41 +45,37 @@ struct BadhronResultHandler {
 }
 
 fn badhron_new_result_handler() -> BadhronResultHandler {
-	// FIXME
-	let mut total_result = badhron_new_check_result();
-	let mut split_result = badhron_new_check_result();
-	let mut exitstatus = 0;
-
+	let mut suite = badhron_new_suite_result();
 	BadhronResultHandler {
-		passed:     || { split_result.passed++; },
-		failed:     || { split_result.failed++; exitstatus = 1; },
-		pending:    || { split_result.pending++; },
+		passed:     || { suite.split_result.passed++; },
+		failed:     || { suite.split_result.failed++; suite.exitstatus = 1; },
+		pending:    || { suite.split_result.pending++; },
 
 		split:      || {
-			total_result.passed  += split_result.passed;
-			total_result.failed  += split_result.failed;
-			total_result.pending += split_result.pending;
-			split_result.passed   = 0;
-			split_result.failed   = 0;
-			split_result.pending  = 0;
+			suite.total_result.passed  += suite.split_result.passed;
+			suite.total_result.failed  += suite.split_result.failed;
+			suite.total_result.pending += suite.split_result.pending;
+			suite.split_result.passed   = 0;
+			suite.split_result.failed   = 0;
+			suite.split_result.pending  = 0;
 		},
 
 		reset:      || {
-			split_result.passed  = 0;
-			split_result.failed  = 0;
-			split_result.pending = 0;
-			total_result.passed  = 0;
-			total_result.failed  = 0;
-			total_result.pending = 0;
+			suite.split_result.passed  = 0;
+			suite.split_result.failed  = 0;
+			suite.split_result.pending = 0;
+			suite.total_result.passed  = 0;
+			suite.total_result.failed  = 0;
+			suite.total_result.pending = 0;
 		},
 
 		total:      || {
-			total_result.passed  += split_result.passed;
-			total_result.failed  += split_result.failed;
-			total_result.pending += split_result.pending;
-			total_result
+			suite.total_result.passed  += suite.split_result.passed;
+			suite.total_result.failed  += suite.split_result.failed;
+			suite.total_result.pending += suite.split_result.pending;
+			suite.total_result
 		},
 
-		exitstatus: || { exitstatus }
+		exitstatus: || { suite.exitstatus }
 	}
 }
