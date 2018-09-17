@@ -12,6 +12,7 @@ anydsl_runtime_wrap(badhron_PROGRAM IMPALA_FLAGS ${badhron_IMPALA_FLAGS} FILES
 	src/results.impala
 	src/checks.impala
 	src/groups.impala
+	src/badhron.impala
 	src/main.impala
 )
 add_library(badhron SHARED ${badhron_PROGRAM})
