@@ -1,36 +1,36 @@
-struct CheckResult {
+struct BadhronCheckResult {
 	passed:  i32,
 	failed:  i32,
 	pending: i32
 }
 
-struct ResultStack {
+struct BadhronResultStack {
 	push:    fn() -> (),
-	pop:     fn() -> CheckResult,
+	pop:     fn() -> BadhronCheckResult,
 	passed:  fn() -> (),
 	failed:  fn() -> (),
 	pending: fn() -> (),
 }
 
-struct ResultStackElement {
-	result: CheckResult,
-	next:  &ResultStackElement
+struct BadhronResultStackElement {
+	result: BadhronCheckResult,
+	next:  &BadhronResultStackElement
 }
 
-static default_result = CheckResult{
+static default_result = BadhronCheckResult{
 	passed:  0,
 	failed:  0,
 	pending: 0
 };
 
-static mut rstack_head = ResultStackElement{
+static mut rstack_head = BadhronResultStackElement{
 	result: default_result,
-	next:   0 as &ResultStackElement
+	next:   0 as &BadhronResultStackElement
 };
 
-static rstack = ResultStack{
+static rstack = BadhronResultStack{
 	push: || {
-		let new_head = ResultStackElement{
+		let new_head = BadhronResultStackElement{
 			result: default_result,
 			next:  &rstack_head
 		};
@@ -38,7 +38,7 @@ static rstack = ResultStack{
 	},
 
 	pop: || {
-		if rstack_head.next == 0 as &ResultStackElement {
+		if rstack_head.next == 0 as &BadhronResultStackElement {
 			default_result
 		} else {
 			let old_head = rstack_head;
