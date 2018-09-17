@@ -19,3 +19,6 @@ target_link_libraries(badhron ${AnyDSL_runtime_LIBRARIES})
 
 add_executable(badhron_test src/main.cpp)
 target_link_libraries(badhron_test badhron)
+
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/share/badhron/cmake)
+configure_file(cmake/badhron-config.cmake.in ${CMAKE_BINARY_DIR}/share/badhron/cmake/badhron-config.cmake @ONLY)
