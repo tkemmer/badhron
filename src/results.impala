@@ -43,7 +43,7 @@ fn badhron_new_result_stack() -> BadhronResultStack {
 
 		pop: || {
 			if head.next == 0 as &BadhronResultStackElement {
-				badhron_new_check_result()
+				head.result
 			} else {
 				let old_head = head;
 				head = *head.next;
