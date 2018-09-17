@@ -23,8 +23,8 @@ struct Badhron {
 fn badhron_suite() -> Badhron {
 	let res = rstack; // TODO
 	Badhron {
-		group:        group,
-		subgroup:     subgroup,
+		group:        badhron_group,
+		subgroup:     badhron_subgroup,
 		pending:      |name|      pending(res, name),
 		assert_true:  |body|      assert_true(res, body),
 		assert_false: |body|      assert_false(res, body),

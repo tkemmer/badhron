@@ -1,4 +1,4 @@
-fn group(name: &[u8], body: fn() -> ()) -> () {
+fn badhron_group(name: &[u8], body: fn() -> ()) -> () {
 	print_string(name);
 	print_string("\n");
 
@@ -21,7 +21,7 @@ fn group(name: &[u8], body: fn() -> ()) -> () {
 	print_string("\n\n");
 }
 
-fn subgroup(name: &[u8], body: fn() -> ()) -> () {
+fn badhron_subgroup(name: &[u8], body: fn() -> ()) -> () {
 	print_string("  > ");
 	print_string(name);
 	print_string("\n");
