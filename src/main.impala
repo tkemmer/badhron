@@ -1,4 +1,4 @@
-extern fn main_impala() -> () {
+extern fn main(i32, &[&[u8]]) -> i32 {
 	let brn = badhron_suite();
 
 	with brn.group("pending") {
@@ -31,4 +31,6 @@ extern fn main_impala() -> () {
 			with brn.assert_f32(42.f)   { 4.f * 10.5f }
 		}
 	}
+
+	0
 }
