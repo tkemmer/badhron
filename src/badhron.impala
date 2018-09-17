@@ -21,7 +21,7 @@ struct Badhron {
 }
 
 fn badhron_suite() -> Badhron {
-	let res = rstack; // TODO
+	let res = badhron_new_result_stack();
 	Badhron {
 		group:        |name, body| badhron_group(res, name, body),
 		subgroup:                  badhron_subgroup,
