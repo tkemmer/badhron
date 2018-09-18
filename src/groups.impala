@@ -39,9 +39,9 @@ fn badhron_subgroup(res: BadhronResultHandler, name: &[u8], body: fn() -> ()) ->
 	print_string(" > ");
 	print_string(name);
 
-	res.split();
+	res.begin_split();
 	body();
-	let result = res.split_result();
+	let result = res.end_split();
 
 	badhron_print_short_summary(result.passed, result.failed, result.pending);
 	print_string("\n");

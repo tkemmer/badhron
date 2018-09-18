@@ -37,25 +37,32 @@ fn badhron_new_suite_result() -> BadhronSuiteResult {
 // ====================================================================================================================
 // result handler
 struct BadhronResultHandler {
+	// check results
 	passed:       fn() -> (),
 	failed:       fn() -> (),
 	pending :     fn() -> (),
-	split:        fn() -> (),
+
+	// splits
+	begin_split:  fn() -> (),
+	end_split:    fn() -> BadhronCheckResult,
+	split_count:  fn() -> i32,
+
+	// total result
 	reset:        fn() -> (),
 	total_result: fn() -> BadhronCheckResult,
-	split_result: fn() -> BadhronCheckResult,
-	split_count:  fn() -> i32,
 	exit_status:  fn() -> i32
 }
 
 fn badhron_new_result_handler() -> BadhronResultHandler {
 	let mut suite = badhron_new_suite_result();
 	BadhronResultHandler {
+		// check results
 		passed:       || { suite.split_result.passed++; },
 		failed:       || { suite.split_result.failed++; suite.exit_status = 1; },
 		pending:      || { suite.split_result.pending++; },
 
-		split:        || {
+		// splits
+		begin_split:  || {
 			suite.total_result.passed  += suite.split_result.passed;
 			suite.total_result.failed  += suite.split_result.failed;
 			suite.total_result.pending += suite.split_result.pending;
@@ -65,6 +72,10 @@ fn badhron_new_result_handler() -> BadhronResultHandler {
 			suite.split_count++;
 		},
 
+		end_split:    || { suite.split_result },
+		split_count:  || { suite.split_count },
+
+		// total result
 		reset:        || {
 			suite.split_result.passed  = 0;
 			suite.split_result.failed  = 0;
@@ -82,8 +93,6 @@ fn badhron_new_result_handler() -> BadhronResultHandler {
 			suite.total_result
 		},
 
-		split_result: || { suite.split_result },
-		split_count:  || { suite.split_count },
 		exit_status:  || { suite.exit_status }
 	}
 }
