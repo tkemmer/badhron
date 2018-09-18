@@ -22,14 +22,14 @@ fn badhron_group(res: BadhronResultHandler, name: &[u8], body: fn() -> ()) -> ()
 		(passed, 0, pending) => {
 			print_i32(passed);
 			print_string(" PASSED ✓");
-			badhron_print_result_summary(0, 0, pending);
+			badhron_print_short_summary(0, 0, pending);
 		},
 
 		// some checks failed
 		(passed, failed, pending) => {
 			print_i32(failed);
 			print_string(" FAILED");
-			badhron_print_result_summary(passed, 0, pending);
+			badhron_print_short_summary(passed, 0, pending);
 		}
 	}
 	print_string("\n\n");
@@ -43,11 +43,11 @@ fn badhron_subgroup(res: BadhronResultHandler, name: &[u8], body: fn() -> ()) ->
 	body();
 	let result = res.split_result();
 
-	badhron_print_result_summary(result.passed, result.failed, result.pending);
+	badhron_print_short_summary(result.passed, result.failed, result.pending);
 	print_string("\n");
 }
 
-fn badhron_print_result_summary(passed: i32, failed: i32, pending: i32) -> () {
+fn badhron_print_short_summary(passed: i32, failed: i32, pending: i32) -> () {
 	if passed + failed + pending > 0 {
 		print_string(" (");
 		if failed > 0 {
