@@ -20,6 +20,7 @@ fn badhron_new_check_result() -> BadhronCheckResult {
 struct BadhronSuiteResult {
 	total_result: BadhronCheckResult,
 	split_result: BadhronCheckResult,
+	split_count:  i32,
 	exitstatus:   i32
 }
 
@@ -27,6 +28,7 @@ fn badhron_new_suite_result() -> BadhronSuiteResult {
 	BadhronSuiteResult{
 		total_result: badhron_new_check_result(),
 		split_result: badhron_new_check_result(),
+		split_count:  0,
 		exitstatus:   0
 	}
 }
@@ -35,47 +37,51 @@ fn badhron_new_suite_result() -> BadhronSuiteResult {
 // ====================================================================================================================
 // result handler
 struct BadhronResultHandler {
-	passed:     fn() -> (),
-	failed:     fn() -> (),
-	pending :   fn() -> (),
-	split:      fn() -> (),
-	reset:      fn() -> (),
-	total:      fn() -> BadhronCheckResult,
-	exitstatus: fn() -> i32
+	passed:      fn() -> (),
+	failed:      fn() -> (),
+	pending :    fn() -> (),
+	split:       fn() -> (),
+	reset:       fn() -> (),
+	total:       fn() -> BadhronCheckResult,
+	split_count: fn() -> i32,
+	exitstatus:  fn() -> i32
 }
 
 fn badhron_new_result_handler() -> BadhronResultHandler {
 	let mut suite = badhron_new_suite_result();
 	BadhronResultHandler {
-		passed:     || { suite.split_result.passed++; },
-		failed:     || { suite.split_result.failed++; suite.exitstatus = 1; },
-		pending:    || { suite.split_result.pending++; },
+		passed:      || { suite.split_result.passed++; },
+		failed:      || { suite.split_result.failed++; suite.exitstatus = 1; },
+		pending:     || { suite.split_result.pending++; },
 
-		split:      || {
+		split:       || {
 			suite.total_result.passed  += suite.split_result.passed;
 			suite.total_result.failed  += suite.split_result.failed;
 			suite.total_result.pending += suite.split_result.pending;
 			suite.split_result.passed   = 0;
 			suite.split_result.failed   = 0;
 			suite.split_result.pending  = 0;
+			suite.split_count++;
 		},
 
-		reset:      || {
+		reset:       || {
 			suite.split_result.passed  = 0;
 			suite.split_result.failed  = 0;
 			suite.split_result.pending = 0;
 			suite.total_result.passed  = 0;
 			suite.total_result.failed  = 0;
 			suite.total_result.pending = 0;
+			suite.split_count          = 0;
 		},
 
-		total:      || {
+		total:       || {
 			suite.total_result.passed  += suite.split_result.passed;
 			suite.total_result.failed  += suite.split_result.failed;
 			suite.total_result.pending += suite.split_result.pending;
 			suite.total_result
 		},
 
-		exitstatus: || { suite.exitstatus }
+		split_count: || {suite.split_count},
+		exitstatus:  || { suite.exitstatus }
 	}
 }
