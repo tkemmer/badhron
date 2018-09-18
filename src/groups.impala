@@ -5,7 +5,7 @@ fn badhron_group(res: BadhronResultHandler, name: &[u8], body: fn() -> ()) -> ()
 
 	res.reset();
 	body();
-	let results = res.total();
+	let results = res.total_result();
 
 	if res.split_count() > 0 {
 		print_string("================================================================================\n");
