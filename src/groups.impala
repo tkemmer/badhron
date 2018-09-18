@@ -1,30 +1,73 @@
 fn badhron_group(res: BadhronResultHandler, name: &[u8], body: fn() -> ()) -> () {
+	print_string("GRP ");
 	print_string(name);
-	print_string("\n");
+	print_string("\n================================================================================\n");
 
 	res.reset();
 	body();
 	let results = res.total();
 
-	print_string("----------\n");
-	print_string("Total facts: ");
-	print_i32(results.passed + results.failed + results.pending);
-	print_string("\n");
-	print_string(" - passed:   ");
-	print_i32(results.passed);
-	print_string("\n");
-	print_string(" - failed:   ");
-	print_i32(results.failed);
-	print_string("\n");
-	print_string(" - pending:  ");
-	print_i32(results.pending);
+	if res.split_count() > 0 {
+		print_string("================================================================================\n");
+	}
+
+	match (results.passed, results.failed, results.pending) {
+		// pending checks only
+		(0, 0, pending) => {
+			print_i32(pending);
+			print_string(" PENDING");
+		},
+
+		// all checks passed (or partly pending)
+		(passed, 0, pending) => {
+			print_i32(passed);
+			print_string(" PASSED ✓");
+			badhron_print_result_summary(0, 0, pending);
+		},
+
+		// some checks failed
+		(passed, failed, pending) => {
+			print_i32(failed);
+			print_string(" FAILED");
+			badhron_print_result_summary(passed, 0, pending);
+		}
+	}
 	print_string("\n\n");
 }
 
 fn badhron_subgroup(res: BadhronResultHandler, name: &[u8], body: fn() -> ()) -> () {
-	res.split();
-	print_string("  > ");
+	print_string(" > ");
 	print_string(name);
-	print_string("\n");
+
+	res.split();
 	body();
+	let result = res.split_result();
+
+	badhron_print_result_summary(result.passed, result.failed, result.pending);
+	print_string("\n");
+}
+
+fn badhron_print_result_summary(passed: i32, failed: i32, pending: i32) -> () {
+	if passed + failed + pending > 0 {
+		print_string(" (");
+		if failed > 0 {
+			print_i32(failed);
+			print_string(" failed");
+			if passed + pending > 0 {
+				print_string(", ");
+			}
+		}
+		if passed > 0 {
+			print_i32(passed);
+			print_string(" passed");
+			if pending > 0 {
+				print_string(", ");
+			}
+		}
+		if pending > 0 {
+			print_i32(pending);
+			print_string(" pending");
+		}
+		print_string(")");
+	}
 }
