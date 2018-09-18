@@ -36,6 +36,6 @@ extern fn main(i32, &[&[u8]]) -> i32 {
 		}
 	}
 
-	brn.exitstatus()
+	brn.exit_status()
 }
 ```

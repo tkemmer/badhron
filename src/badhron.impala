@@ -20,7 +20,7 @@ struct BadhronSuite {
 	assert_f32:   fn(f32,  fn() -> f32)  -> (),
 
 	// misc
-	exitstatus:   fn() -> i32
+	exit_status:  fn() -> i32
 }
 
 fn badhron_suite() -> BadhronSuite {
@@ -42,6 +42,6 @@ fn badhron_suite() -> BadhronSuite {
 		assert_u8:    |exp, body|  badhron_assert_u8(res, exp, body),
 		assert_f64:   |exp, body|  badhron_assert_f64(res, exp, body),
 		assert_f32:   |exp, body|  badhron_assert_f32(res, exp, body),
-		exitstatus:                res.exitstatus
+		exit_status:               res.exit_status
 	}
 }
