@@ -3,10 +3,10 @@ project(Badhron)
 
 find_package(AnyDSL_runtime REQUIRED)
 
-set(badhron_IMPALA_FLAGS "")
+set(Badhron_IMPALA_FLAGS "")
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 	set(CMAKE_CXX_FLAGS "-Wall -pedantic -fsanitize=address")
-	list(APPEND badhron_IMPALA_FLAGS "-emit-annotated" "-log-level" "debug")
+	list(APPEND Badhron_IMPALA_FLAGS "-emit-annotated" "-log-level" "debug")
 endif()
 
 set(Badhron_IMPALA_FILES
@@ -25,12 +25,12 @@ configure_file(cmake/badhron-config.cmake.in ${CMAKE_BINARY_DIR}/share/badhron/c
 
 #######################################################################################################################
 # Library
-anydsl_runtime_wrap(badhron_PROGRAM IMPALA_FLAGS ${badhron_IMPALA_FLAGS} FILES
+anydsl_runtime_wrap(Badhron_PROGRAM IMPALA_FLAGS ${badhron_IMPALA_FLAGS} FILES
 	${Badhron_IMPALA_FILES}
 )
 
 add_library(badhron SHARED
-	${badhron_PROGRAM}
+	${Badhron_PROGRAM}
 	src/reports.h
 	src/reports.cpp
 )
@@ -40,13 +40,13 @@ target_link_libraries(badhron ${AnyDSL_runtime_LIBRARIES})
 
 #######################################################################################################################
 # Tests
-anydsl_runtime_wrap(badhron_TEST_PROGRAM IMPALA_FLAGS ${badhron_IMPALA_FLAGS} FILES
+anydsl_runtime_wrap(Badhron_TEST_PROGRAM IMPALA_FLAGS ${Badhron_IMPALA_FLAGS} FILES
 	${Badhron_IMPALA_FILES}
 	test/main.impala
 )
 
 add_executable(badhron_test
-	${badhron_TEST_PROGRAM}
+	${Badhron_TEST_PROGRAM}
 	test/main.cpp
 )
 
