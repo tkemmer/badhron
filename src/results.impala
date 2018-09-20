@@ -17,10 +17,20 @@ fn badhron_new_check_result() -> BadhronCheckResult {
 
 // ====================================================================================================================
 // check report
+enum BadhronCheckType {
+	Bool,
+	Int64, Int32, Int16, Int8,
+	UInt64, UInt32, UInt16, UInt8,
+	Float64, Float32, Float16
+}
+
 struct BadhronCheckReport {
 	function: &[u8],
 	subgroup: &[u8],
-	message:  &[u8]
+	message:  &[u8],
+	ctype:    BadhronCheckType,
+	expected: &[i8],
+	observed: &[i8]
 }
 
 
