@@ -13,3 +13,7 @@ struct BadhronCheckReport {
 	expected: &[i8],
 	observed: &[i8]
 }
+
+extern "C" {
+	fn badhron_print_report(report: &BadhronCheckReport) -> ();
+}
