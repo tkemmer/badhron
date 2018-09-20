@@ -52,6 +52,8 @@ struct BadhronResultHandler {
 
 	// reports
 	add_report:   fn(BadhronCheckReport) -> (),
+	reports:      fn(fn(&BadhronCheckReport) -> ()) -> (),
+	report_count: fn() -> i32,
 
 	// splits
 	begin_split:  fn() -> (),
@@ -103,6 +105,13 @@ fn badhron_new_result_handler() -> BadhronResultHandler {
 			}
 			suite.report_count++;
 		},
+
+		reports:      |body| {
+			for i in range(0, suite.report_count) { body(suite.reports(i)); }
+			suite.report_count = 0;
+		},
+
+		report_count: || { suite.report_count },
 
 		// splits
 		begin_split:  || {

@@ -16,6 +16,13 @@ fn badhron_group(res: BadhronResultHandler, name: &[u8], body: fn() -> ()) -> ()
 		print_string("================================================================================\n");
 	}
 
+	if res.report_count() > 0 {
+		for report in res.reports() {
+			badhron_print_report(report);
+		}
+		print_string("================================================================================\n");
+	}
+
 	let total = res.total_result();
 	match (total.passed, total.failed, total.pending) {
 		// pending checks only
