@@ -16,12 +16,12 @@ namespace badhron {
 	class CheckReport {
 	public:
 		struct Prototype {
-			char*     function;
-			char*     subgroup;
-			char*     message;
-			CheckType ctype;
-			int8_t*   expected;
-			int8_t*   observed;
+			const char* function;
+			const char* subgroup;
+			const char* message;
+			CheckType   ctype;
+			int8_t*     expected;
+			int8_t*     observed;
 		};
 
 		explicit CheckReport(const Prototype& proto);
