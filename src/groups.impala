@@ -60,7 +60,7 @@ fn badhron_subgroup(res: BadhronResultHandler, name: &[u8], body: fn() -> ()) ->
 	print_string("\n");
 }
 
-fn badhron_print_short_summary(passed: i32, failed: i32, pending: i32) -> () {
+fn @badhron_print_short_summary(passed: i32, failed: i32, pending: i32) -> () {
 	if passed + failed + pending > 0 {
 		print_string(" (");
 		if failed > 0 {
