@@ -7,20 +7,32 @@ fn badhron_pending(res: BadhronResultHandler, name: &[u8]) -> () {
 
 // ====================================================================================================================
 // bool
-fn badhron_assert_bool(res: BadhronResultHandler, exp: bool, body: fn() -> bool) -> () {
-	if exp == body() {
+fn badhron_check_bool_eq(function: &[u8], res: BadhronResultHandler, exp: bool, obs: bool) -> () {
+	if exp == obs {
 		res.passed();
 	} else {
 		res.failed();
+		res.add_report(BadhronCheckReport{
+			function: function,
+			subgroup: res.split_name(),
+			message:  "Assertion failed: value mismatch",
+			ctype:    BadhronCheckType::Bool,
+			expected: bitcast[&[i8]](&[exp]),
+			observed: bitcast[&[i8]](&[obs])
+		});
 	}
 }
 
+fn badhron_assert_bool(res: BadhronResultHandler, exp: bool, body: fn() -> bool) -> () {
+	badhron_check_bool_eq("badhron_assert_bool", res, exp, body());
+}
+
 fn badhron_assert_true(res: BadhronResultHandler, body: fn() -> bool) -> () {
-	badhron_assert_bool(res, true, body);
+	badhron_check_bool_eq("badhron_assert_true", res, true, body());
 }
 
 fn badhron_assert_false(res: BadhronResultHandler, body: fn() -> bool) -> () {
-	badhron_assert_bool(res, false, body);
+	badhron_check_bool_eq("badhron_assert_true", res, false, body());
 }
 
 
