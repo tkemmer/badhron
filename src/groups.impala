@@ -52,7 +52,7 @@ fn badhron_subgroup(res: BadhronResultHandler, name: &[u8], body: fn() -> ()) ->
 	print_string(" > ");
 	print_string(name);
 
-	res.begin_split();
+	res.begin_split(name);
 	body();
 	let result = res.end_split();
 
