@@ -190,6 +190,14 @@ fn badhron_assert_f64(res: BadhronResultHandler, exp: f64, body: fn() -> f64) ->
 		res.passed();
 	} else {
 		res.failed();
+		res.add_report(BadhronCheckReport{
+			function: "badhron_assert_f64",
+			subgroup: res.split_name(),
+			message:  "Assertion failed: value mismatch",
+			ctype:    BadhronCheckType::Float64,
+			expected: bitcast[&[i8]](&[exp]),
+			observed: bitcast[&[i8]](&[obs])
+		});
 	}
 }
 
@@ -201,5 +209,13 @@ fn badhron_assert_f32(res: BadhronResultHandler, exp: f32, body: fn() -> f32) ->
 		res.passed();
 	} else {
 		res.failed();
+		res.add_report(BadhronCheckReport{
+			function: "badhron_assert_f32",
+			subgroup: res.split_name(),
+			message:  "Assertion failed: value mismatch",
+			ctype:    BadhronCheckType::Float32,
+			expected: bitcast[&[i8]](&[exp]),
+			observed: bitcast[&[i8]](&[obs])
+		});
 	}
 }
