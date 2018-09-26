@@ -110,23 +110,71 @@ fn badhron_assert_i8(res: BadhronResultHandler, exp: i8, body: fn() -> i8) -> ()
 // ====================================================================================================================
 // unsigned integers
 fn badhron_assert_u64(res: BadhronResultHandler, exp: u64, body: fn() -> u64) -> () {
-	if exp == body() {
+	let obs = body();
+	if exp == obs {
 		res.passed();
 	} else {
 		res.failed();
+		res.add_report(BadhronCheckReport{
+			function: "badhron_assert_u64",
+			subgroup: res.split_name(),
+			message:  "Assertion failed: value mismatch",
+			ctype:    BadhronCheckType::UInt64,
+			expected: bitcast[&[i8]](&[exp]),
+			observed: bitcast[&[i8]](&[obs])
+		});
 	}
 }
 
 fn badhron_assert_u32(res: BadhronResultHandler, exp: u32, body: fn() -> u32) -> () {
-	badhron_assert_u64(res, exp as u64, || body() as u64);
+	let obs = body();
+	if exp == obs {
+		res.passed();
+	} else {
+		res.failed();
+		res.add_report(BadhronCheckReport{
+			function: "badhron_assert_u32",
+			subgroup: res.split_name(),
+			message:  "Assertion failed: value mismatch",
+			ctype:    BadhronCheckType::UInt32,
+			expected: bitcast[&[i8]](&[exp]),
+			observed: bitcast[&[i8]](&[obs])
+		});
+	}
 }
 
 fn badhron_assert_u16(res: BadhronResultHandler, exp: u16, body: fn() -> u16) -> () {
-	badhron_assert_u64(res, exp as u64, || body() as u64);
+	let obs = body();
+	if exp == obs {
+		res.passed();
+	} else {
+		res.failed();
+		res.add_report(BadhronCheckReport{
+			function: "badhron_assert_u16",
+			subgroup: res.split_name(),
+			message:  "Assertion failed: value mismatch",
+			ctype:    BadhronCheckType::UInt16,
+			expected: bitcast[&[i8]](&[exp]),
+			observed: bitcast[&[i8]](&[obs])
+		});
+	}
 }
 
 fn badhron_assert_u8(res: BadhronResultHandler, exp: u8, body: fn() -> u8) -> () {
-	badhron_assert_u64(res, exp as u64, || body() as u64);
+	let obs = body();
+	if exp == obs {
+		res.passed();
+	} else {
+		res.failed();
+		res.add_report(BadhronCheckReport{
+			function: "badhron_assert_u8",
+			subgroup: res.split_name(),
+			message:  "Assertion failed: value mismatch",
+			ctype:    BadhronCheckType::UInt8,
+			expected: bitcast[&[i8]](&[exp]),
+			observed: bitcast[&[i8]](&[obs])
+		});
+	}
 }
 
 
