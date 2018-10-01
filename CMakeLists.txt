@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.7 FATAL_ERROR)
-project(Badhron)
+project(Badhron CXX)
 
 find_package(AnyDSL_runtime REQUIRED)
 
@@ -36,6 +36,7 @@ add_library(badhron SHARED
 )
 
 target_link_libraries(badhron ${AnyDSL_runtime_LIBRARIES})
+set_target_properties(badhron PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
 
 
 #######################################################################################################################
@@ -51,3 +52,4 @@ add_executable(badhron_test
 )
 
 target_link_libraries(badhron_test badhron ${AnyDSL_runtime_LIBRARIES})
+set_target_properties(badhron PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
