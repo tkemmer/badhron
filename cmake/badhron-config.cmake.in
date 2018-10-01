@@ -3,6 +3,7 @@
 # This will define the following variables:
 # - Badhron_DIR            // path to this configuration file
 # - Badhron_IMPALA_FILES   // source files to be included in your project's anydsl_runtime_wrap call
+# - Badhron_LIBRARIES      // Badhron libraries to be included in your project's target_link_libraries call
 
 cmake_minimum_required(VERSION 3.7 FATAL_ERROR)
 
@@ -37,7 +38,12 @@ set(Badhron_IMPALA_FILES
 	${Badhron_ROOT_DIR}/src/badhron.impala
 )
 
-include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(Badhron DEFAULT_MSG Badhron_DIR)
+if(NOT TARGET badhron)
+	include(${Badhron_DIR}/badhron-exports.cmake)
+endif()
+set(Badhron_LIBRARIES badhron;)
 
-mark_as_advanced(Badhron_ROOT_DIR)
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(Badhron DEFAULT_MSG Badhron_DIR Badhron_IMPALA_FILES Badhron_LIBRARIES)
+
+mark_as_advanced(Badhron_ROOT_DIR Badhron_IMPALA_FILES Badhron_LIBRARIES)
