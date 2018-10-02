@@ -10,11 +10,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 set(Badhron_IMPALA_FILES
-	src/reports.impala
-	src/results.impala
-	src/checks.impala
-	src/groups.impala
-	src/badhron.impala
+	src/impala/reports.impala
+	src/impala/results.impala
+	src/impala/checks.impala
+	src/impala/groups.impala
+	src/impala/badhron.impala
 )
 
 #######################################################################################################################
@@ -31,8 +31,8 @@ anydsl_runtime_wrap(Badhron_PROGRAM IMPALA_FLAGS ${badhron_IMPALA_FLAGS} FILES
 
 add_library(badhron SHARED
 	${Badhron_PROGRAM}
-	src/reports.h
-	src/reports.cpp
+	src/cpp/reports.h
+	src/cpp/reports.cpp
 )
 
 target_link_libraries(badhron ${AnyDSL_runtime_LIBRARIES})

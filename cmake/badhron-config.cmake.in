@@ -21,8 +21,8 @@ find_path(Badhron_DIR
 find_path(Badhron_ROOT_DIR
 	NAMES
 		cmake/badhron-config.cmake.in
-		src/groups.impala
-		src/results.impala
+		src/impala/groups.impala
+		src/impala/results.impala
 	PATHS
 		${Badhron_ROOT_DIR}
 		$ENV{Badhron_ROOT_DIR}
@@ -31,11 +31,11 @@ find_path(Badhron_ROOT_DIR
 )
 
 set(Badhron_IMPALA_FILES
-	${Badhron_ROOT_DIR}/src/reports.impala
-	${Badhron_ROOT_DIR}/src/results.impala
-	${Badhron_ROOT_DIR}/src/checks.impala
-	${Badhron_ROOT_DIR}/src/groups.impala
-	${Badhron_ROOT_DIR}/src/badhron.impala
+	${Badhron_ROOT_DIR}/src/impala/reports.impala
+	${Badhron_ROOT_DIR}/src/impala/results.impala
+	${Badhron_ROOT_DIR}/src/impala/checks.impala
+	${Badhron_ROOT_DIR}/src/impala/groups.impala
+	${Badhron_ROOT_DIR}/src/impala/badhron.impala
 )
 
 if(NOT TARGET badhron)
