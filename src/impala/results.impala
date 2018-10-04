@@ -48,21 +48,19 @@ struct BadhronResultHandler {
 	failed:        fn() -> (),
 	pending :      fn() -> (),
 
-	// reports
-	print_reports: fn() -> (),
-
 	// splits
 	begin_split:   fn(&[u8]) -> (),
 	end_split:     fn() -> BadhronCheckResult,
-	split_name:    fn() -> &[u8],
-	split_count:   fn() -> i32,
+	split_name:    fn() -> &[u8], // TODO remove
+	split_count:   fn() -> i32,   // TODO remove
 
 	// group
-	group_result:  fn() -> BadhronCheckResult,
+	begin_group:   fn(&[u8]) -> (),
+	end_group:     fn() -> BadhronCheckResult,
 
 	// total result
-	reset:         fn() -> (),
-	total_result:  fn() -> BadhronCheckResult,
+	print:         fn() -> (),
+	total_result:  fn() -> BadhronCheckResult, // TODO remove
 
 	// misc
 	id:            fn() -> u64,
@@ -98,11 +96,9 @@ fn badhron_new_result_handler(handler_id: u64) -> BadhronResultHandler {
 			}
 		},
 
-		// reports
-		print_reports: || { badhron_print_reports(handler_id); },
-
 		// splits
 		begin_split:   |name| {
+			badhron_add_subgroup(handler_id, name);
 			suite.split_name = name;
 			suite.in_split = true;
 			suite.split_result.passed   = 0;
@@ -117,6 +113,12 @@ fn badhron_new_result_handler(handler_id: u64) -> BadhronResultHandler {
 			suite.total_result.passed  += suite.split_result.passed;
 			suite.total_result.failed  += suite.split_result.failed;
 			suite.total_result.pending += suite.split_result.pending;
+			badhron_set_subgroup_result(
+				handler_id,
+				suite.split_result.passed,
+				suite.split_result.failed,
+				suite.split_result.pending
+			);
 			suite.split_result
 		},
 
@@ -125,10 +127,8 @@ fn badhron_new_result_handler(handler_id: u64) -> BadhronResultHandler {
 		split_count:   || { suite.split_count },
 
 		// group
-		group_result:  || { suite.group_result },
-
-		// total result
-		reset:         || {
+		begin_group:   |name| {
+			badhron_add_group(handler_id, name);
 			suite.total_result.passed  = 0;
 			suite.total_result.failed  = 0;
 			suite.total_result.pending = 0;
@@ -141,6 +141,19 @@ fn badhron_new_result_handler(handler_id: u64) -> BadhronResultHandler {
 			suite.split_count          = 0;
 			suite.in_split             = false;
 		},
+
+		end_group:     || {
+			badhron_set_group_result(
+				handler_id,
+				suite.group_result.passed,
+				suite.group_result.failed,
+				suite.group_result.pending
+			);
+			suite.group_result
+		},
+
+		// total result
+		print:         || { badhron_print_suite(handler_id); },
 
 		total_result:  || {
 			suite.total_result.passed  += suite.group_result.passed;
@@ -159,5 +172,11 @@ extern "C" {
 	fn badhron_create_result_handler() -> u64;
 	fn badhron_delete_result_handler(u64) -> ();
 
-	fn badhron_print_reports(u64) -> ();
+	fn badhron_add_group(u64, &[u8]) -> ();
+	fn badhron_add_subgroup(u64, &[u8]) -> ();
+
+	fn badhron_set_group_result(u64, i32, i32, i32) -> ();
+	fn badhron_set_subgroup_result(u64, i32, i32, i32) -> ();
+
+	fn badhron_print_suite(u64) -> ();
 }

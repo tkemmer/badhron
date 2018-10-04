@@ -31,6 +31,8 @@ anydsl_runtime_wrap(Badhron_PROGRAM IMPALA_FLAGS ${badhron_IMPALA_FLAGS} FILES
 
 add_library(badhron SHARED
 	${Badhron_PROGRAM}
+	src/cpp/groups.h
+	src/cpp/groups.cpp
 	src/cpp/reports.h
 	src/cpp/reports.cpp
 	src/cpp/results.h

@@ -1,81 +1,11 @@
 fn badhron_group(res: BadhronResultHandler, name: &[u8], body: fn() -> ()) -> () {
-	print_string("GRP ");
-	print_string(name);
-	print_string("\n================================================================================\n");
-
-	res.reset();
+	res.begin_group(name);
 	body();
-
-	if res.split_count() > 0 {
-		let gresult = res.group_result();
-		if gresult.passed + gresult.failed + gresult.pending > 0 {
-			print_string(" + group checks");
-			badhron_print_short_summary(gresult.passed, gresult.failed, gresult.pending);
-			print_string("\n");
-		}
-		print_string("================================================================================\n");
-	}
-
-	res.print_reports();
-
-	let total = res.total_result();
-	match (total.passed, total.failed, total.pending) {
-		// pending checks only
-		(0, 0, pending) => {
-			print_i32(pending);
-			print_string(" PENDING");
-		},
-
-		// all checks passed (or partly pending)
-		(passed, 0, pending) => {
-			print_i32(passed);
-			print_string(" PASSED ✓");
-			badhron_print_short_summary(0, 0, pending);
-		},
-
-		// some checks failed
-		(passed, failed, pending) => {
-			print_i32(failed);
-			print_string(" FAILED");
-			badhron_print_short_summary(passed, 0, pending);
-		}
-	}
-	print_string("\n\n");
+	res.end_group();
 }
 
 fn badhron_subgroup(res: BadhronResultHandler, name: &[u8], body: fn() -> ()) -> () {
-	print_string(" > ");
-	print_string(name);
-
 	res.begin_split(name);
 	body();
-	let result = res.end_split();
-
-	badhron_print_short_summary(result.passed, result.failed, result.pending);
-	print_string("\n");
-}
-
-fn @badhron_print_short_summary(passed: i32, failed: i32, pending: i32) -> () {
-	if passed + failed + pending > 0 {
-		print_string(" (");
-		if failed > 0 {
-			print_i32(failed);
-			print_string(" failed");
-			if passed + pending > 0 {
-				print_string(", ");
-			}
-		}
-		if passed > 0 {
-			print_i32(passed);
-			print_string(" passed");
-			if pending > 0 {
-				print_string(", ");
-			}
-		}
-		if pending > 0 {
-			print_i32(pending);
-			print_string(" pending");
-		}
-		print_string(")");
-	}
+	res.end_split();
 }
