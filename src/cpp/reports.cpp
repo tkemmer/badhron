@@ -3,19 +3,18 @@
 #include <iomanip>
 #include <string>
 
-using namespace std;
-using namespace std::string_literals;
-
 namespace badhron {
+	using std::ostream;
+	using std::string;
 
 	// ================================================================================================================
 	// report::impl
 	class report::impl {
 	public:
 		explicit impl(
-			std::string function,
-			std::string subgroup,
-			std::string message,
+			string      function,
+			string      subgroup,
+			string      message,
 			report_data expected,
 			report_data observed
 		) :
@@ -27,8 +26,9 @@ namespace badhron {
 		}
 
 		friend ostream& operator<<(ostream& os, const impl& report) {
-			if(holds_alternative<bool>(report.expected_))
-				os << boolalpha;
+			using namespace std::string_literals;
+			if(std::holds_alternative<bool>(report.expected_))
+				os << std::boolalpha;
 			os << " # "s << report.function_;
 			if(report.subgroup_ != ""s)
 				os << " (in subgroup "s << report.subgroup_ << ")"s;
@@ -55,13 +55,13 @@ namespace badhron {
 	// ================================================================================================================
 	// report
 	report::report(
-		std::string function,
-		std::string subgroup,
-		std::string message,
+		string      function,
+		string      subgroup,
+		string      message,
 		report_data expected,
 		report_data observed
 	) :
-		impl_{make_unique<report::impl>(move(function), move(subgroup), move(message), expected, observed)} {
+		impl_{std::make_unique<report::impl>(move(function), move(subgroup), move(message), expected, observed)} {
 	}
 
 	report::report(report&&) noexcept = default;
