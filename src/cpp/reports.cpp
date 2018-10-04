@@ -9,15 +9,15 @@ using namespace std::string_literals;
 namespace badhron {
 
 	// ================================================================================================================
-	// check_report::impl
-	class check_report::impl {
+	// report::impl
+	class report::impl {
 	public:
 		explicit impl(
 			std::string function,
 			std::string subgroup,
 			std::string message,
-			check_report_data expected,
-			check_report_data observed
+			report_data expected,
+			report_data observed
 		) :
 			function_{move(function)},
 			subgroup_{move(subgroup)},
@@ -44,33 +44,33 @@ namespace badhron {
 		}
 
 	private:
-		string            function_;
-		string            subgroup_;
-		string            message_;
-		check_report_data expected_;
-		check_report_data observed_;
+		string      function_;
+		string      subgroup_;
+		string      message_;
+		report_data expected_;
+		report_data observed_;
 	};
 
 
 	// ================================================================================================================
-	// check_report
-	check_report::check_report(
+	// report
+	report::report(
 		std::string function,
 		std::string subgroup,
 		std::string message,
-		check_report_data expected,
-		check_report_data observed
+		report_data expected,
+		report_data observed
 	) :
-		impl_{make_unique<check_report::impl>(move(function), move(subgroup), move(message), expected, observed)} {
+		impl_{make_unique<report::impl>(move(function), move(subgroup), move(message), expected, observed)} {
 	}
 
-	check_report::check_report(check_report&&) noexcept = default;
+	report::report(report&&) noexcept = default;
 
-	check_report::~check_report() = default;
+	report::~report() = default;
 
-	check_report& check_report::operator=(badhron::check_report&&) noexcept = default;
+	report& report::operator=(badhron::report&&) noexcept = default;
 
-	ostream& operator<<(ostream& os, const check_report& report) {
+	ostream& operator<<(ostream& os, const report& report) {
 		if(report.impl_)
 			os << *report.impl_;
 		return os;

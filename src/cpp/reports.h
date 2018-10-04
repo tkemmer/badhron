@@ -8,27 +8,27 @@
 
 namespace badhron {
 
-	using check_report_data = std::variant<bool, int64_t, uint64_t, double>;
+	using report_data = std::variant<bool, int64_t, uint64_t, double>;
 
-	class check_report {
+	class report {
 	public:
-		explicit check_report(
+		explicit report(
 			std::string function,
 			std::string subgroup,
 			std::string message,
-			check_report_data expected,
-			check_report_data observed
+			report_data expected,
+			report_data observed
 		);
 
-		check_report(const check_report&) = delete;
-		check_report(check_report&&) noexcept;
+		report(const report&) = delete;
+		report(report&&) noexcept;
 
-		~check_report();
+		~report();
 
-		check_report& operator=(const check_report&) = delete;
-		check_report& operator=(check_report&&) noexcept;
+		report& operator=(const report&) = delete;
+		report& operator=(report&&) noexcept;
 
-		friend std::ostream &operator<<(std::ostream &os, const check_report &report);
+		friend std::ostream &operator<<(std::ostream &os, const report &report);
 
 	private:
 		class impl;

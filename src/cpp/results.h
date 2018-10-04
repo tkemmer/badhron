@@ -7,15 +7,15 @@
 
 namespace badhron {
 
-	class check_report;
+	class report;
 
 	class result_handler {
 	public:
-		void add_report(check_report report);
+		void add_report(report report);
 		void print_reports(std::ostream& os) const;
 
 	private:
-		std::vector<check_report> reports_;
+		std::vector<report> reports_;
 	};
 
 }
