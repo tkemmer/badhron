@@ -21,11 +21,9 @@ struct BadhronSuiteResult {
 	total_result: BadhronCheckResult,
 	group_result: BadhronCheckResult,
 	split_result: BadhronCheckResult,
-	reports:      [&BadhronCheckReport * 50],
 	split_name:   &[u8],
 	in_split:     bool,
 	split_count:  i32,
-	report_count: i32,
 	exit_status:  i32
 }
 
@@ -34,11 +32,9 @@ fn badhron_new_suite_result() -> BadhronSuiteResult {
 		total_result: badhron_new_check_result(),
 		group_result: badhron_new_check_result(),
 		split_result: badhron_new_check_result(),
-		reports:      [0 as &BadhronCheckReport, .. 50],
 		split_name:   0 as &[u8],
 		in_split:     false,
 		split_count:  0,
-		report_count: 0,
 		exit_status:  0
 	}
 }
@@ -53,9 +49,6 @@ struct BadhronResultHandler {
 	pending :      fn() -> (),
 
 	// reports
-	add_report:    fn(BadhronCheckReport) -> (),
-	reports:       fn(fn(&BadhronCheckReport) -> ()) -> (),
-	report_count:  fn() -> i32,
 	print_reports: fn() -> (),
 
 	// splits
@@ -106,20 +99,6 @@ fn badhron_new_result_handler(handler_id: u64) -> BadhronResultHandler {
 		},
 
 		// reports
-		add_report:    |report| {
-			if suite.report_count < 50 {
-				suite.reports(suite.report_count) = report;
-			}
-			suite.report_count++;
-		},
-
-		reports:       |body| {
-			for i in range(0, suite.report_count) { body(suite.reports(i)); }
-			suite.report_count = 0;
-		},
-
-		report_count:  || { suite.report_count },
-
 		print_reports: || { badhron_print_reports(handler_id); },
 
 		// splits
