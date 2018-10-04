@@ -36,7 +36,7 @@ add_library(badhron SHARED
 )
 
 target_link_libraries(badhron ${AnyDSL_runtime_LIBRARIES})
-set_target_properties(badhron PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+set_target_properties(badhron PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
 
 export(TARGETS badhron FILE ${CMAKE_BINARY_DIR}/share/badhron/cmake/badhron-exports.cmake)
 
@@ -54,4 +54,4 @@ add_executable(badhron_test
 )
 
 target_link_libraries(badhron_test badhron ${AnyDSL_runtime_LIBRARIES})
-set_target_properties(badhron_test PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+set_target_properties(badhron_test PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
