@@ -48,38 +48,39 @@ fn badhron_new_suite_result() -> BadhronSuiteResult {
 // result handler
 struct BadhronResultHandler {
 	// check results
-	passed:       fn() -> (),
-	failed:       fn() -> (),
-	pending :     fn() -> (),
+	passed:        fn() -> (),
+	failed:        fn() -> (),
+	pending :      fn() -> (),
 
 	// reports
-	add_report:   fn(BadhronCheckReport) -> (),
-	reports:      fn(fn(&BadhronCheckReport) -> ()) -> (),
-	report_count: fn() -> i32,
+	add_report:    fn(BadhronCheckReport) -> (),
+	reports:       fn(fn(&BadhronCheckReport) -> ()) -> (),
+	report_count:  fn() -> i32,
+	print_reports: fn() -> (),
 
 	// splits
-	begin_split:  fn(&[u8]) -> (),
-	end_split:    fn() -> BadhronCheckResult,
-	split_name:   fn() -> &[u8],
-	split_count:  fn() -> i32,
+	begin_split:   fn(&[u8]) -> (),
+	end_split:     fn() -> BadhronCheckResult,
+	split_name:    fn() -> &[u8],
+	split_count:   fn() -> i32,
 
 	// group
-	group_result: fn() -> BadhronCheckResult,
+	group_result:  fn() -> BadhronCheckResult,
 
 	// total result
-	reset:        fn() -> (),
-	total_result: fn() -> BadhronCheckResult,
+	reset:         fn() -> (),
+	total_result:  fn() -> BadhronCheckResult,
 
 	// misc
-	id:           fn() -> u64,
-	exit_status:  fn() -> i32
+	id:            fn() -> u64,
+	exit_status:   fn() -> i32
 }
 
 fn badhron_new_result_handler(handler_id: u64) -> BadhronResultHandler {
 	let mut suite = badhron_new_suite_result();
 	BadhronResultHandler {
 		// check results
-		passed:       || {
+		passed:        || {
 			if suite.in_split {
 				suite.split_result.passed++;
 			} else {
@@ -87,7 +88,7 @@ fn badhron_new_result_handler(handler_id: u64) -> BadhronResultHandler {
 			}
 		},
 
-		failed:       || {
+		failed:        || {
 			if suite.in_split {
 				suite.split_result.failed++;
 			} else {
@@ -96,7 +97,7 @@ fn badhron_new_result_handler(handler_id: u64) -> BadhronResultHandler {
 			suite.exit_status = 1;
 		},
 
-		pending:      || {
+		pending:       || {
 			if suite.in_split {
 				suite.split_result.pending++;
 			} else {
@@ -105,22 +106,24 @@ fn badhron_new_result_handler(handler_id: u64) -> BadhronResultHandler {
 		},
 
 		// reports
-		add_report:   |report| {
+		add_report:    |report| {
 			if suite.report_count < 50 {
 				suite.reports(suite.report_count) = report;
 			}
 			suite.report_count++;
 		},
 
-		reports:      |body| {
+		reports:       |body| {
 			for i in range(0, suite.report_count) { body(suite.reports(i)); }
 			suite.report_count = 0;
 		},
 
-		report_count: || { suite.report_count },
+		report_count:  || { suite.report_count },
+
+		print_reports: || { badhron_print_reports(handler_id); },
 
 		// splits
-		begin_split:  |name| {
+		begin_split:   |name| {
 			suite.split_name = name;
 			suite.in_split = true;
 			suite.split_result.passed   = 0;
@@ -129,7 +132,7 @@ fn badhron_new_result_handler(handler_id: u64) -> BadhronResultHandler {
 			suite.split_count++;
 		},
 
-		end_split:    || {
+		end_split:     || {
 			suite.split_name = 0 as &[u8];
 			suite.in_split = false;
 			suite.total_result.passed  += suite.split_result.passed;
@@ -138,15 +141,15 @@ fn badhron_new_result_handler(handler_id: u64) -> BadhronResultHandler {
 			suite.split_result
 		},
 
-		split_name:   || { suite.split_name },
+		split_name:    || { suite.split_name },
 
-		split_count:  || { suite.split_count },
+		split_count:   || { suite.split_count },
 
 		// group
-		group_result: || { suite.group_result },
+		group_result:  || { suite.group_result },
 
 		// total result
-		reset:        || {
+		reset:         || {
 			suite.total_result.passed  = 0;
 			suite.total_result.failed  = 0;
 			suite.total_result.pending = 0;
@@ -160,20 +163,22 @@ fn badhron_new_result_handler(handler_id: u64) -> BadhronResultHandler {
 			suite.in_split             = false;
 		},
 
-		total_result: || {
+		total_result:  || {
 			suite.total_result.passed  += suite.group_result.passed;
 			suite.total_result.failed  += suite.group_result.failed;
 			suite.total_result.pending += suite.group_result.pending;
 			suite.total_result
 		},
 
-		id:           || { handler_id },
+		id:            || { handler_id },
 
-		exit_status:  || { suite.exit_status }
+		exit_status:   || { suite.exit_status }
 	}
 }
 
 extern "C" {
 	fn badhron_create_result_handler() -> u64;
 	fn badhron_delete_result_handler(u64) -> ();
+
+	fn badhron_print_reports(u64) -> ();
 }

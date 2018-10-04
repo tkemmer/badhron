@@ -14,6 +14,90 @@ struct BadhronCheckReport {
 	observed: &[i8]
 }
 
+struct BadhronReportHandler {
+	// bool
+	add_bool_report: fn(&[u8], &[u8], bool, bool) -> (),
+
+	// int
+	add_i64_report:  fn(&[u8], &[u8], i64,  i64)  -> (),
+	add_i32_report:  fn(&[u8], &[u8], i32,  i32)  -> (),
+	add_i16_report:  fn(&[u8], &[u8], i16,  i16)  -> (),
+	add_i8_report:   fn(&[u8], &[u8], i8,   i8 )  -> (),
+
+	// uint
+	add_u64_report:  fn(&[u8], &[u8], u64,  u64)  -> (),
+	add_u32_report:  fn(&[u8], &[u8], u32,  u32)  -> (),
+	add_u16_report:  fn(&[u8], &[u8], u16,  u16)  -> (),
+	add_u8_report:   fn(&[u8], &[u8], u8,   u8 )  -> (),
+
+	// float
+	add_f64_report:  fn(&[u8], &[u8], f64,  f64)  -> (),
+	add_f32_report:  fn(&[u8], &[u8], f32,  f32)  -> ()
+}
+
+fn badhron_new_report_handler(res: BadhronResultHandler) -> BadhronReportHandler {
+	BadhronReportHandler {
+		// bool
+		add_bool_report: |function, message, exp, obs| {
+			badhron_add_bool_report(res.id(), function, res.split_name(), message, exp, obs)
+		},
+
+		// int
+		add_i64_report:  |function, message, exp, obs| {
+			badhron_add_i64_report(res.id(), function, res.split_name(), message, exp, obs)
+		},
+
+		add_i32_report:  |function, message, exp, obs| {
+			badhron_add_i32_report(res.id(), function, res.split_name(), message, exp, obs)
+		},
+
+		add_i16_report:  |function, message, exp, obs| {
+			badhron_add_i16_report(res.id(), function, res.split_name(), message, exp, obs)
+		},
+
+		add_i8_report:  |function, message, exp, obs| {
+			badhron_add_i8_report(res.id(), function, res.split_name(), message, exp, obs)
+		},
+
+		// uint
+		add_u64_report:  |function, message, exp, obs| {
+			badhron_add_u64_report(res.id(), function, res.split_name(), message, exp, obs)
+		},
+
+		add_u32_report:  |function, message, exp, obs| {
+			badhron_add_u32_report(res.id(), function, res.split_name(), message, exp, obs)
+		},
+
+		add_u16_report:  |function, message, exp, obs| {
+			badhron_add_u16_report(res.id(), function, res.split_name(), message, exp, obs)
+		},
+
+		add_u8_report:  |function, message, exp, obs| {
+			badhron_add_u8_report(res.id(), function, res.split_name(), message, exp, obs)
+		},
+
+		// float
+		add_f64_report:  |function, message, exp, obs| {
+			badhron_add_f64_report(res.id(), function, res.split_name(), message, exp, obs)
+		},
+
+		add_f32_report:  |function, message, exp, obs| {
+			badhron_add_f32_report(res.id(), function, res.split_name(), message, exp, obs)
+		}
+	}
+}
+
 extern "C" {
 	fn badhron_print_report(report: &BadhronCheckReport) -> ();
+	fn badhron_add_bool_report(res: u64, function: &[u8], subgroup: &[u8], message: &[u8], exp: bool, obs: bool) -> ();
+	fn badhron_add_i64_report( res: u64, function: &[u8], subgroup: &[u8], message: &[u8], exp: i64,  obs: i64)  -> ();
+	fn badhron_add_i32_report( res: u64, function: &[u8], subgroup: &[u8], message: &[u8], exp: i32,  obs: i32)  -> ();
+	fn badhron_add_i16_report( res: u64, function: &[u8], subgroup: &[u8], message: &[u8], exp: i16,  obs: i16)  -> ();
+	fn badhron_add_i8_report(  res: u64, function: &[u8], subgroup: &[u8], message: &[u8], exp: i8,   obs: i8)   -> ();
+	fn badhron_add_u64_report( res: u64, function: &[u8], subgroup: &[u8], message: &[u8], exp: u64,  obs: u64)  -> ();
+	fn badhron_add_u32_report( res: u64, function: &[u8], subgroup: &[u8], message: &[u8], exp: u32,  obs: u32)  -> ();
+	fn badhron_add_u16_report( res: u64, function: &[u8], subgroup: &[u8], message: &[u8], exp: u16,  obs: u16)  -> ();
+	fn badhron_add_u8_report(  res: u64, function: &[u8], subgroup: &[u8], message: &[u8], exp: u8,   obs: u8)   -> ();
+	fn badhron_add_f64_report( res: u64, function: &[u8], subgroup: &[u8], message: &[u8], exp: f64,  obs: f64)  -> ();
+	fn badhron_add_f32_report( res: u64, function: &[u8], subgroup: &[u8], message: &[u8], exp: f32,  obs: f32)  -> ();
 }
