@@ -12,7 +12,7 @@ namespace badhron {
 		reports_.push_back(std::move(report));
 	}
 
-	void ResultHandler::print_reports(std::ostream& os) {
+	void ResultHandler::print_reports(std::ostream& os) const {
 		if(reports_.empty())
 			return;
 		for(auto& report: reports_)

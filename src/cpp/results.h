@@ -12,7 +12,7 @@ namespace badhron {
 	class ResultHandler {
 	public:
 		void add_report(CheckReport report);
-		void print_reports(std::ostream& os);
+		void print_reports(std::ostream& os) const;
 
 	private:
 		std::vector<CheckReport> reports_;
