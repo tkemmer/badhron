@@ -46,6 +46,8 @@ fn badhron_new_suite_result() -> BadhronSuiteResult {
 
 // ====================================================================================================================
 // result handler
+static mut badhron_last_handler_id = 0;
+
 struct BadhronResultHandler {
 	// check results
 	passed:       fn() -> (),
@@ -69,11 +71,15 @@ struct BadhronResultHandler {
 	// total result
 	reset:        fn() -> (),
 	total_result: fn() -> BadhronCheckResult,
+
+	// misc
+	id:           fn() -> i32,
 	exit_status:  fn() -> i32
 }
 
 fn badhron_new_result_handler() -> BadhronResultHandler {
 	let mut suite = badhron_new_suite_result();
+	let handler_id = badhron_last_handler_id++;
 	BadhronResultHandler {
 		// check results
 		passed:       || {
@@ -163,6 +169,8 @@ fn badhron_new_result_handler() -> BadhronResultHandler {
 			suite.total_result.pending += suite.group_result.pending;
 			suite.total_result
 		},
+
+		id:           || { handler_id },
 
 		exit_status:  || { suite.exit_status }
 	}
