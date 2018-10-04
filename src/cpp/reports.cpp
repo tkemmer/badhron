@@ -9,15 +9,15 @@ using namespace std::string_literals;
 namespace badhron {
 
 	// ================================================================================================================
-	// CheckReport::Impl
-	class CheckReport::Impl {
+	// check_report::impl
+	class check_report::impl {
 	public:
-		explicit Impl(
+		explicit impl(
 			std::string function,
 			std::string subgroup,
 			std::string message,
-			CheckReportData expected,
-			CheckReportData observed
+			check_report_data expected,
+			check_report_data observed
 		) :
 			function_{move(function)},
 			subgroup_{move(subgroup)},
@@ -26,7 +26,7 @@ namespace badhron {
 			observed_{observed} {
 		}
 
-		friend ostream& operator<<(ostream& os, const Impl& report) {
+		friend ostream& operator<<(ostream& os, const impl& report) {
 			if(holds_alternative<bool>(report.expected_))
 				os << boolalpha;
 			os << " # "s << report.function_;
@@ -44,33 +44,33 @@ namespace badhron {
 		}
 
 	private:
-		string          function_;
-		string          subgroup_;
-		string          message_;
-		CheckReportData expected_;
-		CheckReportData observed_;
+		string            function_;
+		string            subgroup_;
+		string            message_;
+		check_report_data expected_;
+		check_report_data observed_;
 	};
 
 
 	// ================================================================================================================
-	// CheckReport
-	CheckReport::CheckReport(
+	// check_report
+	check_report::check_report(
 		std::string function,
 		std::string subgroup,
 		std::string message,
-		CheckReportData expected,
-		CheckReportData observed
+		check_report_data expected,
+		check_report_data observed
 	) :
-		impl_{make_unique<CheckReport::Impl>(move(function), move(subgroup), move(message), expected, observed)} {
+		impl_{make_unique<check_report::impl>(move(function), move(subgroup), move(message), expected, observed)} {
 	}
 
-	CheckReport::CheckReport(CheckReport&&) noexcept = default;
+	check_report::check_report(check_report&&) noexcept = default;
 
-	CheckReport::~CheckReport() = default;
+	check_report::~check_report() = default;
 
-	CheckReport& CheckReport::operator=(badhron::CheckReport&&) noexcept = default;
+	check_report& check_report::operator=(badhron::check_report&&) noexcept = default;
 
-	ostream& operator<<(ostream& os, const CheckReport& report) {
+	ostream& operator<<(ostream& os, const check_report& report) {
 		if(report.impl_)
 			os << *report.impl_;
 		return os;

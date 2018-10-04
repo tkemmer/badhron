@@ -6,13 +6,13 @@
 
 namespace badhron {
 	static uint64_t last_handler_id = 0;
-	static std::map<uint64_t, ResultHandler> handlers;
+	static std::map<uint64_t, result_handler> handlers;
 
-	void ResultHandler::add_report(CheckReport report) {
+	void result_handler::add_report(check_report report) {
 		reports_.push_back(std::move(report));
 	}
 
-	void ResultHandler::print_reports(std::ostream& os) const {
+	void result_handler::print_reports(std::ostream& os) const {
 		if(reports_.empty())
 			return;
 		for(auto& report: reports_)
@@ -35,17 +35,17 @@ void badhron_print_reports(uint64_t handler) {
 }
 
 void badhron_add_bool_report(uint64_t handler, char* fn, char* subgrp, char* msg, bool exp, bool obs) {
-	badhron::handlers[handler].add_report(badhron::CheckReport{fn, subgrp, msg, exp, obs});
+	badhron::handlers[handler].add_report(badhron::check_report{fn, subgrp, msg, exp, obs});
 }
 
 void badhron_add_int_report(uint64_t handler, char* fn, char* subgrp, char* msg, int64_t exp, int64_t obs) {
-	badhron::handlers[handler].add_report(badhron::CheckReport{fn, subgrp, msg, exp, obs});
+	badhron::handlers[handler].add_report(badhron::check_report{fn, subgrp, msg, exp, obs});
 }
 
 void badhron_add_uint_report(uint64_t handler, char* fn, char* subgrp, char* msg, uint64_t exp, uint64_t obs) {
-	badhron::handlers[handler].add_report(badhron::CheckReport{fn, subgrp, msg, exp, obs});
+	badhron::handlers[handler].add_report(badhron::check_report{fn, subgrp, msg, exp, obs});
 }
 
 void badhron_add_float_report(uint64_t handler, char* fn, char* subgrp, char* msg, double exp, double obs) {
-	badhron::handlers[handler].add_report(badhron::CheckReport{fn, subgrp, msg, exp, obs});
+	badhron::handlers[handler].add_report(badhron::check_report{fn, subgrp, msg, exp, obs});
 }
