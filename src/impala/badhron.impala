@@ -17,14 +17,10 @@ struct BadhronSuite {
 	assert_u16:   fn(u16,  fn() -> u16)  -> (),
 	assert_u8:    fn(u8,   fn() -> u8)   -> (),
 	assert_f64:   fn(f64,  fn() -> f64)  -> (),
-	assert_f32:   fn(f32,  fn() -> f32)  -> (),
-
-	// misc
-	exit_status:  fn() -> i32
+	assert_f32:   fn(f32,  fn() -> f32)  -> ()
 }
 
-fn badhron_suite() -> BadhronSuite {
-	let res = badhron_new_result_handler();
+fn badhron_new_suite(res: BadhronResultHandler) -> BadhronSuite {
 	BadhronSuite {
 		group:        |name, body| badhron_group(res, name, body),
 		subgroup:     |name, body| badhron_subgroup(res, name, body),
@@ -41,7 +37,12 @@ fn badhron_suite() -> BadhronSuite {
 		assert_u16:   |exp, body|  badhron_assert_u16(res, exp, body),
 		assert_u8:    |exp, body|  badhron_assert_u8(res, exp, body),
 		assert_f64:   |exp, body|  badhron_assert_f64(res, exp, body),
-		assert_f32:   |exp, body|  badhron_assert_f32(res, exp, body),
-		exit_status:               res.exit_status
+		assert_f32:   |exp, body|  badhron_assert_f32(res, exp, body)
 	}
+}
+
+fn badhron_suite(body: fn(BadhronSuite) -> ()) -> i32 {
+	let res = badhron_new_result_handler();
+	body(badhron_new_suite(res));
+	res.exit_status()
 }
