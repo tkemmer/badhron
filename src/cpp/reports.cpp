@@ -9,19 +9,6 @@ using namespace std::string_literals;
 namespace badhron {
 
 	// ================================================================================================================
-	// Helper functions
-	void print_report_data(ostream& os, CheckReportData data) {
-		// cast to non-char int to prevent i8/u8 numbers from being interpreted as characters
-		if(auto val = get_if<int8_t>(&data))
-			os << int(*val);
-		else if(auto valt = get_if<uint8_t>(&data))
-			os << unsigned(*valt);
-		else
-			visit([&os](auto&& arg){ os << arg; }, data);
-	}
-
-
-	// ================================================================================================================
 	// CheckReport::Impl
 	class CheckReport::Impl {
 	public:
@@ -48,10 +35,10 @@ namespace badhron {
 			os << '\n'
 			   << "   \033[1m"s << report.message_ << "\033[0m\n"s
 			   << "   Expected: "s;
-			print_report_data(os, report.expected_);
+			visit([&os](auto&& arg){ os << arg; }, report.expected_);
 			os << '\n'
 			   << "   Observed: "s;
-			print_report_data(os, report.observed_);
+			visit([&os](auto&& arg){ os << arg; }, report.observed_);
 			os << '\n';
 			return os;
 		}

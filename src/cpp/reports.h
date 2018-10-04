@@ -8,12 +8,7 @@
 
 namespace badhron {
 
-	using CheckReportData = std::variant<
-		bool,
-		int64_t, int32_t, int16_t, int8_t,
-		uint64_t, uint32_t, uint16_t, uint8_t,
-		double, float
-	>;
+	using CheckReportData = std::variant<bool, int64_t, uint64_t, double>;
 
 	class CheckReport {
 	public:
