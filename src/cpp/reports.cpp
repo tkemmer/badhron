@@ -25,63 +25,6 @@ namespace badhron {
 	// CheckReport::Impl
 	class CheckReport::Impl {
 	public:
-		explicit Impl(const CheckReportPrototype& proto) :
-			function_{proto.function},
-			subgroup_{proto.subgroup},
-			message_ {proto.message},
-			expected_{},
-			observed_{} {
-
-			switch(proto.ctype) {
-				case badhron::CheckType::Bool:
-					expected_ = *reinterpret_cast<bool*>(proto.expected);
-					observed_ = *reinterpret_cast<bool*>(proto.observed);
-					break;
-				case badhron::CheckType::Int64:
-					expected_ = *reinterpret_cast<int64_t*>(proto.expected);
-					observed_ = *reinterpret_cast<int64_t*>(proto.observed);
-					break;
-				case badhron::CheckType::Int32:
-					expected_ = *reinterpret_cast<int32_t*>(proto.expected);
-					observed_ = *reinterpret_cast<int32_t*>(proto.observed);
-					break;
-				case badhron::CheckType::Int16:
-					expected_ = *reinterpret_cast<int16_t*>(proto.expected);
-					observed_ = *reinterpret_cast<int16_t*>(proto.observed);
-					break;
-				case badhron::CheckType::Int8:
-					expected_ = *proto.expected;
-					observed_ = *proto.observed;
-					break;
-				case badhron::CheckType::UInt64:
-					expected_ = *reinterpret_cast<uint64_t*>(proto.expected);
-					observed_ = *reinterpret_cast<uint64_t*>(proto.observed);
-					break;
-				case badhron::CheckType::UInt32:
-					expected_ = *reinterpret_cast<uint32_t*>(proto.expected);
-					observed_ = *reinterpret_cast<uint32_t*>(proto.observed);
-					break;
-				case badhron::CheckType::UInt16:
-					expected_ = *reinterpret_cast<uint16_t*>(proto.expected);
-					observed_ = *reinterpret_cast<uint16_t*>(proto.observed);
-					break;
-				case badhron::CheckType::UInt8:
-					expected_ = *reinterpret_cast<uint8_t*>(proto.expected);
-					observed_ = *reinterpret_cast<uint8_t*>(proto.observed);
-					break;
-				case badhron::CheckType::Float64:
-					expected_ = *reinterpret_cast<double*>(proto.expected);
-					observed_ = *reinterpret_cast<double*>(proto.observed);
-					break;
-				case badhron::CheckType::Float32:
-					expected_ = *reinterpret_cast<float*>(proto.expected);
-					observed_ = *reinterpret_cast<float*>(proto.observed);
-					break;
-				default:
-					break; // TODO throw
-			}
-		}
-
 		explicit Impl(
 			std::string function,
 			std::string subgroup,
@@ -124,10 +67,6 @@ namespace badhron {
 
 	// ================================================================================================================
 	// CheckReport
-	CheckReport::CheckReport(const CheckReportPrototype& proto) :
-		impl_{make_unique<CheckReport::Impl>(proto)} {
-	}
-
 	CheckReport::CheckReport(
 		std::string function,
 		std::string subgroup,
@@ -149,11 +88,4 @@ namespace badhron {
 			os << *report.impl_;
 		return os;
 	}
-}
-
-
-// ====================================================================================================================
-// Impala interface
-void badhron_print_report(badhron::CheckReportPrototype* proto) {
-	std::cout << badhron::CheckReport{*proto};
 }

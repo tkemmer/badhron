@@ -8,22 +8,6 @@
 
 namespace badhron {
 
-	enum class CheckType {
-		Bool,
-		Int64, Int32, Int16, Int8,
-		UInt64, UInt32, UInt16, UInt8,
-		Float64, Float32, Float16
-	};
-
-	struct CheckReportPrototype {
-		const char* function;
-		const char* subgroup;
-		const char* message;
-		CheckType   ctype;
-		int8_t*     expected;
-		int8_t*     observed;
-	};
-
 	using CheckReportData = std::variant<
 		bool,
 		int64_t, int32_t, int16_t, int8_t,
@@ -33,8 +17,6 @@ namespace badhron {
 
 	class CheckReport {
 	public:
-		explicit CheckReport(const CheckReportPrototype &proto);
-
 		explicit CheckReport(
 			std::string function,
 			std::string subgroup,
@@ -57,10 +39,6 @@ namespace badhron {
 		class Impl;
 		std::unique_ptr<Impl> impl_;
 	};
-}
-
-extern "C" {
-	void badhron_print_report(badhron::CheckReportPrototype *report);
 }
 
 #endif // BADHRON_REPORTS_H
