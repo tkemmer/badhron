@@ -34,6 +34,7 @@ namespace badhron {
 	class CheckReport {
 	public:
 		explicit CheckReport(const CheckReportPrototype &proto);
+
 		explicit CheckReport(
 			std::string function,
 			std::string subgroup,
@@ -41,7 +42,14 @@ namespace badhron {
 			CheckReportData expected,
 			CheckReportData observed
 		);
+
+		CheckReport(const CheckReport&) = delete;
+		CheckReport(CheckReport&&) noexcept;
+
 		~CheckReport();
+
+		CheckReport& operator=(const CheckReport&) = delete;
+		CheckReport& operator=(CheckReport&&) noexcept;
 
 		friend std::ostream &operator<<(std::ostream &os, const CheckReport &report);
 

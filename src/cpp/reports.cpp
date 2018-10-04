@@ -121,7 +121,11 @@ namespace badhron {
 		impl_{make_unique<CheckReport::Impl>(move(function), move(subgroup), move(message), expected, observed)} {
 	}
 
+	CheckReport::CheckReport(CheckReport&&) noexcept = default;
+
 	CheckReport::~CheckReport() = default;
+
+	CheckReport& CheckReport::operator=(badhron::CheckReport&&) noexcept = default;
 
 	ostream& operator<<(ostream& os, const CheckReport& report) {
 		if(report.impl_)
