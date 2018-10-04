@@ -84,6 +84,8 @@ namespace badhron {
 		}
 
 		friend ostream& operator<<(ostream& os, const Impl& report) {
+			if(holds_alternative<bool>(report.expected_))
+				os << boolalpha;
 			os << " # "s << report.function_;
 			if(report.subgroup_ != ""s)
 				os << " (in subgroup "s << report.subgroup_ << ")"s;
@@ -138,7 +140,5 @@ namespace badhron {
 // ====================================================================================================================
 // Impala interface
 void badhron_print_report(badhron::CheckReportPrototype* proto) {
-	using badhron::CheckReport;
-	std::cout << std::boolalpha
-	          << CheckReport{*proto};
+	std::cout << badhron::CheckReport{*proto};
 }
