@@ -2,22 +2,11 @@
 
 #include <iomanip>
 #include <string>
-#include <variant>
 
 using namespace std;
 using namespace std::string_literals;
 
 namespace badhron {
-
-	// ================================================================================================================
-	// CheckReportData
-	using CheckReportData = variant<
-		bool,
-		int64_t, int32_t, int16_t, int8_t,
-		uint64_t, uint32_t, uint16_t, uint8_t,
-		double, float
-	>;
-
 
 	// ================================================================================================================
 	// CheckReport::Impl
@@ -80,6 +69,20 @@ namespace badhron {
 			}
 		}
 
+		explicit Impl(
+			std::string function,
+			std::string subgroup,
+			std::string message,
+			CheckReportData expected,
+			CheckReportData observed
+		) :
+			function_{move(function)},
+			subgroup_{move(subgroup)},
+			message_ {move(message)},
+			expected_{expected},
+			observed_{observed} {
+		}
+
 		friend ostream& operator<<(ostream& os, const Impl& report) {
 			os << " # "s << report.function_;
 			if(report.subgroup_ != ""s)
@@ -106,6 +109,16 @@ namespace badhron {
 	// CheckReport
 	CheckReport::CheckReport(const CheckReportPrototype& proto) :
 		impl_{make_unique<CheckReport::Impl>(proto)} {
+	}
+
+	CheckReport::CheckReport(
+		std::string function,
+		std::string subgroup,
+		std::string message,
+		CheckReportData expected,
+		CheckReportData observed
+	) :
+		impl_{make_unique<CheckReport::Impl>(move(function), move(subgroup), move(message), expected, observed)} {
 	}
 
 	CheckReport::~CheckReport() = default;

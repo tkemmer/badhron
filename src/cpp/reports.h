@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <iostream>
 #include <memory>
+#include <variant>
 
 namespace badhron {
 
@@ -23,9 +24,23 @@ namespace badhron {
 		int8_t*     observed;
 	};
 
+	using CheckReportData = std::variant<
+		bool,
+		int64_t, int32_t, int16_t, int8_t,
+		uint64_t, uint32_t, uint16_t, uint8_t,
+		double, float
+	>;
+
 	class CheckReport {
 	public:
 		explicit CheckReport(const CheckReportPrototype &proto);
+		explicit CheckReport(
+			std::string function,
+			std::string subgroup,
+			std::string message,
+			CheckReportData expected,
+			CheckReportData observed
+		);
 		~CheckReport();
 
 		friend std::ostream &operator<<(std::ostream &os, const CheckReport &report);
