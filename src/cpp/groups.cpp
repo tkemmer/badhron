@@ -86,7 +86,7 @@ namespace badhron {
 		auto total = group.total_result();
 		switch(total.verdict()) {
 			case result::verdict::passed:
-				os << "\033[1m"s << total.passed << " PASSED  ✓\033[0m"s;
+				os << "\033[1m"s << total.passed << " PASSED ✓\033[0m"s;
 				print_short_summary(os, {0, total.failed, total.pending});
 				break;
 			case result::verdict::failed:
