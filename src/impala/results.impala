@@ -60,104 +60,104 @@ struct BadhronResultHandler {
 	total_result:  fn() -> BadhronCheckResult, // TODO remove
 
 	// misc
-	id:            fn() -> u64,
+	suite_id:      fn() -> u64,
 	exit_status:   fn() -> i32
 }
 
-fn badhron_new_result_handler(handler_id: u64) -> BadhronResultHandler {
-	let mut suite = badhron_new_suite_result();
+fn badhron_new_result_handler(suite: u64) -> BadhronResultHandler {
+	let mut res = badhron_new_suite_result();
 	BadhronResultHandler {
 		// check results
 		passed:        || {
-			if suite.in_split {
-				suite.split_result.passed++;
+			if res.in_split {
+				res.split_result.passed++;
 			} else {
-				suite.group_result.passed++;
+				res.group_result.passed++;
 			}
 		},
 
 		failed:        || {
-			if suite.in_split {
-				suite.split_result.failed++;
+			if res.in_split {
+				res.split_result.failed++;
 			} else {
-				suite.group_result.failed++;
+				res.group_result.failed++;
 			}
-			suite.exit_status = 1;
+			res.exit_status = 1;
 		},
 
 		pending:       || {
-			if suite.in_split {
-				suite.split_result.pending++;
+			if res.in_split {
+				res.split_result.pending++;
 			} else {
-				suite.group_result.pending++;
+				res.group_result.pending++;
 			}
 		},
 
 		// splits
 		begin_split:   |name| {
-			badhron_add_subgroup(handler_id, name);
-			suite.split_name = name;
-			suite.in_split = true;
-			suite.split_result.passed   = 0;
-			suite.split_result.failed   = 0;
-			suite.split_result.pending  = 0;
+			badhron_add_subgroup(suite, name);
+			res.split_name = name;
+			res.in_split = true;
+			res.split_result.passed   = 0;
+			res.split_result.failed   = 0;
+			res.split_result.pending  = 0;
 		},
 
 		end_split:     || {
-			suite.split_name = 0 as &[u8];
-			suite.in_split = false;
-			suite.total_result.passed  += suite.split_result.passed;
-			suite.total_result.failed  += suite.split_result.failed;
-			suite.total_result.pending += suite.split_result.pending;
+			res.split_name = 0 as &[u8];
+			res.in_split = false;
+			res.total_result.passed  += res.split_result.passed;
+			res.total_result.failed  += res.split_result.failed;
+			res.total_result.pending += res.split_result.pending;
 			badhron_set_subgroup_result(
-				handler_id,
-				suite.split_result.passed,
-				suite.split_result.failed,
-				suite.split_result.pending
+				suite,
+				res.split_result.passed,
+				res.split_result.failed,
+				res.split_result.pending
 			);
-			suite.split_result
+			res.split_result
 		},
 
-		split_name:    || { suite.split_name },
+		split_name:    || { res.split_name },
 
 		// group
 		begin_group:   |name| {
-			badhron_add_group(handler_id, name);
-			suite.total_result.passed  = 0;
-			suite.total_result.failed  = 0;
-			suite.total_result.pending = 0;
-			suite.group_result.passed  = 0;
-			suite.group_result.failed  = 0;
-			suite.group_result.pending = 0;
-			suite.split_result.passed  = 0;
-			suite.split_result.failed  = 0;
-			suite.split_result.pending = 0;
-			suite.in_split             = false;
+			badhron_add_group(suite, name);
+			res.total_result.passed  = 0;
+			res.total_result.failed  = 0;
+			res.total_result.pending = 0;
+			res.group_result.passed  = 0;
+			res.group_result.failed  = 0;
+			res.group_result.pending = 0;
+			res.split_result.passed  = 0;
+			res.split_result.failed  = 0;
+			res.split_result.pending = 0;
+			res.in_split             = false;
 		},
 
 		end_group:     || {
 			badhron_set_group_result(
-				handler_id,
-				suite.group_result.passed,
-				suite.group_result.failed,
-				suite.group_result.pending
+				suite,
+				res.group_result.passed,
+				res.group_result.failed,
+				res.group_result.pending
 			);
-			suite.group_result
+			res.group_result
 		},
 
 		// total result
-		print:         || { badhron_print_suite(handler_id); },
+		print:         || { badhron_print_suite(suite); },
 
 		total_result:  || {
-			suite.total_result.passed  += suite.group_result.passed;
-			suite.total_result.failed  += suite.group_result.failed;
-			suite.total_result.pending += suite.group_result.pending;
-			suite.total_result
+			res.total_result.passed  += res.group_result.passed;
+			res.total_result.failed  += res.group_result.failed;
+			res.total_result.pending += res.group_result.pending;
+			res.total_result
 		},
 
-		id:            || { handler_id },
+		suite_id:      || { suite },
 
-		exit_status:   || { suite.exit_status }
+		exit_status:   || { res.exit_status }
 	}
 }
 

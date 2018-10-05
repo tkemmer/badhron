@@ -8,19 +8,19 @@ struct BadhronReportHandler {
 fn badhron_new_report_handler(res: BadhronResultHandler) -> BadhronReportHandler {
 	BadhronReportHandler {
 		add_bool_report:  |function, message, exp, obs| {
-			badhron_add_bool_report(res.id(), function, res.split_name(), message, exp, obs)
+			badhron_add_bool_report(res.suite_id(), function, res.split_name(), message, exp, obs)
 		},
 
 		add_int_report:   |function, message, exp, obs| {
-			badhron_add_int_report(res.id(), function, res.split_name(), message, exp, obs)
+			badhron_add_int_report(res.suite_id(), function, res.split_name(), message, exp, obs)
 		},
 
 		add_uint_report:  |function, message, exp, obs| {
-			badhron_add_uint_report(res.id(), function, res.split_name(), message, exp, obs)
+			badhron_add_uint_report(res.suite_id(), function, res.split_name(), message, exp, obs)
 		},
 
 		add_float_report: |function, message, exp, obs| {
-			badhron_add_float_report(res.id(), function, res.split_name(), message, exp, obs)
+			badhron_add_float_report(res.suite_id(), function, res.split_name(), message, exp, obs)
 		}
 	}
 }
