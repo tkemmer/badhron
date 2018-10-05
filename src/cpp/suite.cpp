@@ -1,4 +1,4 @@
-#include "results.h"
+#include "suite.h"
 
 #include "groups.h"
 #include "reports.h"

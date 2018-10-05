@@ -36,7 +36,8 @@ add_library(badhron SHARED
 	src/cpp/reports.h
 	src/cpp/reports.cpp
 	src/cpp/results.h
-	src/cpp/results.cpp
+	src/cpp/suite.h
+	src/cpp/suite.cpp
 )
 
 target_link_libraries(badhron ${AnyDSL_runtime_LIBRARIES})
