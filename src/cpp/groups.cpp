@@ -95,7 +95,7 @@ namespace badhron {
 				break;
 
 			case result::verdict::pending:
-				os << "\033[1m"s << total.pending << " PENDING\033[0m\n"s;
+				os << "\033[1m"s << total.pending << " PENDING\033[0m"s;
 				break;
 			default:
 				break;
