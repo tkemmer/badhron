@@ -42,10 +42,10 @@ fn badhron_new_suite(res: BadhronResultHandler) -> BadhronSuite {
 }
 
 fn badhron_suite(body: fn(BadhronSuite) -> ()) -> i32 {
-	let hid = badhron_create_suite();
-	let res = badhron_new_result_handler(hid);
+	let suite = badhron_create_suite();
+	let res = badhron_new_result_handler(suite);
 	body(badhron_new_suite(res));
 	res.print();
-	badhron_delete_suite(hid); // TODO move to handler
+	badhron_delete_suite(suite);
 	res.exit_status()
 }
