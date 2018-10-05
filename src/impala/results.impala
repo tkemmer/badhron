@@ -169,8 +169,8 @@ fn badhron_new_result_handler(handler_id: u64) -> BadhronResultHandler {
 }
 
 extern "C" {
-	fn badhron_create_result_handler() -> u64;
-	fn badhron_delete_result_handler(u64) -> ();
+	fn badhron_create_suite() -> u64;
+	fn badhron_delete_suite(u64) -> ();
 
 	fn badhron_add_group(u64, &[u8]) -> ();
 	fn badhron_add_subgroup(u64, &[u8]) -> ();
