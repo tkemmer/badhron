@@ -18,7 +18,6 @@ fn badhron_new_check_result() -> BadhronCheckResult {
 // ====================================================================================================================
 // suite result
 struct BadhronSuiteResult {
-	total_result: BadhronCheckResult,
 	group_result: BadhronCheckResult,
 	split_result: BadhronCheckResult,
 	split_name:   &[u8],
@@ -28,7 +27,6 @@ struct BadhronSuiteResult {
 
 fn badhron_new_suite_result() -> BadhronSuiteResult {
 	BadhronSuiteResult{
-		total_result: badhron_new_check_result(),
 		group_result: badhron_new_check_result(),
 		split_result: badhron_new_check_result(),
 		split_name:   0 as &[u8],
@@ -57,7 +55,6 @@ struct BadhronResultHandler {
 
 	// total result
 	print:         fn() -> (),
-	total_result:  fn() -> BadhronCheckResult, // TODO remove
 
 	// misc
 	suite_id:      fn() -> u64,
@@ -106,9 +103,6 @@ fn badhron_new_result_handler(suite: u64) -> BadhronResultHandler {
 		end_split:     || {
 			res.split_name = 0 as &[u8];
 			res.in_split = false;
-			res.total_result.passed  += res.split_result.passed;
-			res.total_result.failed  += res.split_result.failed;
-			res.total_result.pending += res.split_result.pending;
 			badhron_set_subgroup_result(
 				suite,
 				res.split_result.passed,
@@ -123,9 +117,6 @@ fn badhron_new_result_handler(suite: u64) -> BadhronResultHandler {
 		// group
 		begin_group:   |name| {
 			badhron_add_group(suite, name);
-			res.total_result.passed  = 0;
-			res.total_result.failed  = 0;
-			res.total_result.pending = 0;
 			res.group_result.passed  = 0;
 			res.group_result.failed  = 0;
 			res.group_result.pending = 0;
@@ -147,13 +138,6 @@ fn badhron_new_result_handler(suite: u64) -> BadhronResultHandler {
 
 		// total result
 		print:         || { badhron_print_suite(suite); },
-
-		total_result:  || {
-			res.total_result.passed  += res.group_result.passed;
-			res.total_result.failed  += res.group_result.failed;
-			res.total_result.pending += res.group_result.pending;
-			res.total_result
-		},
 
 		suite_id:      || { suite },
 
