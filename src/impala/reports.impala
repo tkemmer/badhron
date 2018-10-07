@@ -1,26 +1,26 @@
 struct BadhronReportHandler {
-	add_bool_report:  fn(&[u8], &[u8], bool, bool) -> (),
-	add_int_report:   fn(&[u8], &[u8], i64,  i64)  -> (),
-	add_uint_report:  fn(&[u8], &[u8], u64,  u64)  -> (),
-	add_float_report: fn(&[u8], &[u8], f64,  f64)  -> ()
+	add_bool_report:  fn(&[u8], bool, bool) -> (),
+	add_int_report:   fn(&[u8], i64,  i64)  -> (),
+	add_uint_report:  fn(&[u8], u64,  u64)  -> (),
+	add_float_report: fn(&[u8], f64,  f64)  -> ()
 }
 
-fn badhron_new_report_handler(res: BadhronResultHandler) -> BadhronReportHandler {
+fn badhron_new_report_handler(res: BadhronResultHandler, name: &[u8]) -> BadhronReportHandler {
 	BadhronReportHandler {
-		add_bool_report:  |function, message, exp, obs| {
-			badhron_add_bool_report(res.suite_id(), function, res.split_name(), message, exp, obs)
+		add_bool_report:  |message, exp, obs| {
+			badhron_add_bool_report(res.suite_id(), name, res.split_name(), message, exp, obs)
 		},
 
-		add_int_report:   |function, message, exp, obs| {
-			badhron_add_int_report(res.suite_id(), function, res.split_name(), message, exp, obs)
+		add_int_report:   |message, exp, obs| {
+			badhron_add_int_report(res.suite_id(), name, res.split_name(), message, exp, obs)
 		},
 
-		add_uint_report:  |function, message, exp, obs| {
-			badhron_add_uint_report(res.suite_id(), function, res.split_name(), message, exp, obs)
+		add_uint_report:  |message, exp, obs| {
+			badhron_add_uint_report(res.suite_id(), name, res.split_name(), message, exp, obs)
 		},
 
-		add_float_report: |function, message, exp, obs| {
-			badhron_add_float_report(res.suite_id(), function, res.split_name(), message, exp, obs)
+		add_float_report: |message, exp, obs| {
+			badhron_add_float_report(res.suite_id(), name, res.split_name(), message, exp, obs)
 		}
 	}
 }

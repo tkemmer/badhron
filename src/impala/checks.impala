@@ -1,199 +1,147 @@
 // ====================================================================================================================
-// misc
+// decision makers
+struct BadhronCheckFn {
+	name:   &[u8],
+	check:  fn() -> bool,
+	report: fn(BadhronReportHandler) -> ()
+}
+
+fn badhron_check(res: BadhronResultHandler, f: BadhronCheckFn) -> () {
+	if f.check() {
+		res.passed();
+	} else {
+		res.failed();
+		f.report(badhron_new_report_handler(res, f.name));
+	}
+}
+
 fn badhron_pending(res: BadhronResultHandler, name: &[u8]) -> () {
 	res.pending();
 }
 
 
 // ====================================================================================================================
-// bool
-fn badhron_check_bool_eq(function: &[u8], res: BadhronResultHandler, exp: bool, obs: bool) -> () {
-	if exp == obs {
-		res.passed();
-	} else {
-		res.failed();
-		badhron_new_report_handler(res).add_bool_report(
-			"badhron_assert_bool",
+// built-in check functions
+fn badhron_check_bool_eq(name: &[u8], exp: bool, obs: bool) -> BadhronCheckFn {
+	BadhronCheckFn {
+		name:   name,
+		check:  || exp == obs,
+		report: |r| r.add_bool_report(
 			"Assertion failed: value mismatch",
 			exp,
 			obs
-		);
+		)
 	}
 }
 
+fn badhron_check_int_eq(name: &[u8], exp: i64, obs: i64) -> BadhronCheckFn {
+	BadhronCheckFn {
+		name:   name,
+		check:  || exp == obs,
+		report: |r| r.add_int_report(
+			"Assertion failed: value mismatch",
+			exp,
+			obs
+		)
+	}
+}
+
+fn badhron_check_uint_eq(name: &[u8], exp: u64, obs: u64) -> BadhronCheckFn {
+	BadhronCheckFn {
+		name:   name,
+		check:  || exp == obs,
+		report: |r| r.add_uint_report(
+			"Assertion failed: value mismatch",
+			exp,
+			obs
+		)
+	}
+}
+
+
+// ====================================================================================================================
+// built-in assertions
+
+// bool
 fn badhron_assert_bool(res: BadhronResultHandler, exp: bool, body: fn() -> bool) -> () {
-	badhron_check_bool_eq("badhron_assert_bool", res, exp, body());
+	badhron_check(res, badhron_check_bool_eq("badhron_assert_bool", exp, body()));
 }
 
 fn badhron_assert_true(res: BadhronResultHandler, body: fn() -> bool) -> () {
-	badhron_check_bool_eq("badhron_assert_true", res, true, body());
+	badhron_check(res, badhron_check_bool_eq("badhron_assert_true", true, body()));
 }
 
 fn badhron_assert_false(res: BadhronResultHandler, body: fn() -> bool) -> () {
-	badhron_check_bool_eq("badhron_assert_true", res, false, body());
+	badhron_check(res, badhron_check_bool_eq("badhron_assert_false", false, body()));
 }
 
-
-// ====================================================================================================================
 // signed integers
 fn badhron_assert_i64(res: BadhronResultHandler, exp: i64, body: fn() -> i64) -> () {
-	let obs = body();
-	if exp == obs {
-		res.passed();
-	} else {
-		res.failed();
-		badhron_new_report_handler(res).add_int_report(
-			"badhron_assert_i64",
-			"Assertion failed: value mismatch",
-			exp,
-			obs
-		);
-	}
+	badhron_check(res, badhron_check_int_eq("badhron_assert_i64", exp, body()));
 }
 
 fn badhron_assert_i32(res: BadhronResultHandler, exp: i32, body: fn() -> i32) -> () {
-	let obs = body();
-	if exp == obs {
-		res.passed();
-	} else {
-		res.failed();
-		badhron_new_report_handler(res).add_int_report(
-			"badhron_assert_i32",
-			"Assertion failed: value mismatch",
-			exp as i64,
-			obs as i64
-		);
-	}
+	badhron_check(res, badhron_check_int_eq("badhron_assert_i32", exp as i64, body() as i64));
 }
 
 fn badhron_assert_i16(res: BadhronResultHandler, exp: i16, body: fn() -> i16) -> () {
-	let obs = body();
-	if exp == obs {
-		res.passed();
-	} else {
-		res.failed();
-		badhron_new_report_handler(res).add_int_report(
-			"badhron_assert_i16",
-			"Assertion failed: value mismatch",
-			exp as i64,
-			obs as i64
-		);
-	}
+	badhron_check(res, badhron_check_int_eq("badhron_assert_i16", exp as i64, body() as i64));
 }
 
 fn badhron_assert_i8(res: BadhronResultHandler, exp: i8, body: fn() -> i8) -> () {
-	let obs = body();
-	if exp == obs {
-		res.passed();
-	} else {
-		res.failed();
-		badhron_new_report_handler(res).add_int_report(
-			"badhron_assert_i8",
-			"Assertion failed: value mismatch",
-			exp as i64,
-			obs as i64
-		);
-	}
+	badhron_check(res, badhron_check_int_eq("badhron_assert_i8", exp as i64, body() as i64));
 }
 
-
-// ====================================================================================================================
 // unsigned integers
 fn badhron_assert_u64(res: BadhronResultHandler, exp: u64, body: fn() -> u64) -> () {
-	let obs = body();
-	if exp == obs {
-		res.passed();
-	} else {
-		res.failed();
-		badhron_new_report_handler(res).add_uint_report(
-			"badhron_assert_u64",
-			"Assertion failed: value mismatch",
-			exp,
-			obs
-		);
-	}
+	badhron_check(res, badhron_check_uint_eq("badhron_assert_u64", exp, body()));
 }
 
 fn badhron_assert_u32(res: BadhronResultHandler, exp: u32, body: fn() -> u32) -> () {
-	let obs = body();
-	if exp == obs {
-		res.passed();
-	} else {
-		res.failed();
-		badhron_new_report_handler(res).add_uint_report(
-			"badhron_assert_u32",
-			"Assertion failed: value mismatch",
-			exp as u64,
-			obs as u64
-		);
-	}
+	badhron_check(res, badhron_check_uint_eq("badhron_assert_u32", exp as u64, body() as u64));
 }
 
 fn badhron_assert_u16(res: BadhronResultHandler, exp: u16, body: fn() -> u16) -> () {
-	let obs = body();
-	if exp == obs {
-		res.passed();
-	} else {
-		res.failed();
-		badhron_new_report_handler(res).add_uint_report(
-			"badhron_assert_u16",
-			"Assertion failed: value mismatch",
-			exp as u64,
-			obs as u64
-		);
-	}
+	badhron_check(res, badhron_check_uint_eq("badhron_assert_u16", exp as u64, body() as u64));
 }
 
 fn badhron_assert_u8(res: BadhronResultHandler, exp: u8, body: fn() -> u8) -> () {
-	let obs = body();
-	if exp == obs {
-		res.passed();
-	} else {
-		res.failed();
-		badhron_new_report_handler(res).add_uint_report(
-			"badhron_assert_u8",
-			"Assertion failed: value mismatch",
-			exp as u64,
-			obs as u64
-		);
-	}
+	badhron_check(res, badhron_check_uint_eq("badhron_assert_u8", exp as u64, body() as u64));
 }
 
-
-// ====================================================================================================================
 // floating point numbers
 // static rtol_f16 = 0.03125h;
 
 fn badhron_assert_f64(res: BadhronResultHandler, exp: f64, body: fn() -> f64) -> () {
-	let math = cpu_intrinsics;
-	let rtol = 1.49e-8;
 	let obs = body();
-	if math.fabs(exp - obs) <= rtol * math.fmax(math.fabs(exp), math.fabs(obs)) {
-		res.passed();
-	} else {
-		res.failed();
-		badhron_new_report_handler(res).add_float_report(
-			"badhron_assert_f64",
+	badhron_check(res, BadhronCheckFn{
+		name:   "badhron_assert_f64",
+		check:  || {
+			let math = cpu_intrinsics;
+			let rtol = 1.49e-8;
+			math.fabs(exp - obs) <= rtol * math.fmax(math.fabs(exp), math.fabs(obs))
+		},
+		report: |r| r.add_float_report(
 			"Assertion failed: value mismatch",
 			exp,
 			obs
-		);
-	}
+		)
+	});
 }
 
 fn badhron_assert_f32(res: BadhronResultHandler, exp: f32, body: fn() -> f32) -> () {
-	let math = cpu_intrinsics;
-	let rtol = 3.45e-5f;
 	let obs = body();
-	if math.fabsf(exp - obs) <= rtol * math.fmaxf(math.fabsf(exp), math.fabsf(obs)) {
-		res.passed();
-	} else {
-		res.failed();
-		badhron_new_report_handler(res).add_float_report(
-			"badhron_assert_f32",
+	badhron_check(res, BadhronCheckFn{
+		name:   "badhron_assert_f64",
+		check:  || {
+			let math = cpu_intrinsics;
+			let rtol = 3.45e-5f;
+			math.fabsf(exp - obs) <= rtol * math.fmaxf(math.fabsf(exp), math.fabsf(obs))
+		},
+		report: |r| r.add_float_report(
 			"Assertion failed: value mismatch",
 			exp as f64,
 			obs as f64
-		);
-	}
+		)
+	});
 }
