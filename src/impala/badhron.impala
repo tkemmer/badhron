@@ -5,6 +5,7 @@ struct BadhronSuite {
 
 	// checks
 	pending:      fn(&[u8]) -> (),
+	assert:       fn(fn() -> BadhronCheckFn) -> (),
 	assert_true:  fn(fn() -> bool) -> (),
 	assert_false: fn(fn() -> bool) -> (),
 	assert_bool:  fn(bool, fn() -> bool) -> (),
@@ -25,6 +26,7 @@ fn badhron_new_suite(res: BadhronResultHandler) -> BadhronSuite {
 		group:        |name, body| badhron_group(res, name, body),
 		subgroup:     |name, body| badhron_subgroup(res, name, body),
 		pending:      |name|       badhron_pending(res, name),
+		assert:       |body|       badhron_assert(res, body),
 		assert_true:  |body|       badhron_assert_true(res, body),
 		assert_false: |body|       badhron_assert_false(res, body),
 		assert_bool:  |exp, body|  badhron_assert_bool(res, exp, body),

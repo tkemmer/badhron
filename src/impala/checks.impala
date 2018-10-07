@@ -62,6 +62,10 @@ fn badhron_check_uint_eq(name: &[u8], exp: u64, obs: u64) -> BadhronCheckFn {
 // ====================================================================================================================
 // built-in assertions
 
+fn badhron_assert(res: BadhronResultHandler, body: fn() -> BadhronCheckFn) -> () {
+	badhron_check(res, body());
+}
+
 // bool
 fn badhron_assert_bool(res: BadhronResultHandler, exp: bool, body: fn() -> bool) -> () {
 	badhron_check(res, badhron_check_bool_eq("badhron_assert_bool", exp, body()));
