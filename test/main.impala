@@ -1,5 +1,6 @@
 extern fn main(i32, &[&[u8]]) -> i32 {
 	with suite in badhron_suite() {
 		suite_simple(suite);
+		suite_functions(suite);
 	}
 }

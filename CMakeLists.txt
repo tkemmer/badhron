@@ -51,6 +51,7 @@ export(TARGETS badhron FILE ${CMAKE_BINARY_DIR}/share/badhron/cmake/badhron-expo
 anydsl_runtime_wrap(Badhron_TEST_PROGRAM IMPALA_FLAGS ${Badhron_IMPALA_FLAGS} FILES
 	${Badhron_IMPALA_FILES}
 	test/simple.impala
+	test/functions.impala
 	test/main.impala
 )
 

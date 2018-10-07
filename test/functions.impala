@@ -1,0 +1,37 @@
+struct Point2D {
+	x: i32,
+	y: i32
+}
+
+fn assert_point2d(exp: Point2D, obs: Point2D) -> BadhronCheckFn {
+	BadhronCheckFn {
+		name:   "assert_point2d",
+		check:  || exp.x == obs.x && exp.y == obs.y,
+		report: |r| {
+			if exp.x != obs.x {
+				r.add_int_report(
+					"x-coordinate mismatch",
+					exp.x as i64,
+					obs.x as i64
+				);
+			}
+			if exp.y != obs.y {
+				r.add_int_report(
+					"y-coordinate mismatch",
+					exp.y as i64,
+					obs.y as i64
+				);
+			}
+		}
+	}
+}
+
+fn suite_functions(suite: BadhronSuite) -> () {
+	with suite.group("custom assertions") {
+		let p1 = Point2D{x: 1, y: 2};
+		let p2 = Point2D{x: 1, y: 2};
+
+		with suite.assert() { assert_point2d(p1, p1) }
+		with suite.assert() { assert_point2d(p1, p2) }
+	}
+}
