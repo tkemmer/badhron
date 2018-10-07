@@ -10,6 +10,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 set(Badhron_IMPALA_FILES
+	src/impala/utils.impala
 	src/impala/reports.impala
 	src/impala/results.impala
 	src/impala/checks.impala

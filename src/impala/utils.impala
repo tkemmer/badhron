@@ -1,0 +1,13 @@
+fn badhron_approx_f64(a: f64, b: f64) -> bool {
+	let math = cpu_intrinsics;
+	let rtol = 1.49e-8;
+	math.fabs(a - b) <= rtol * math.fmax(math.fabs(a), math.fabs(b))
+}
+
+fn badhron_approx_f32(a: f32, b: f32) -> bool {
+	let math = cpu_intrinsics;
+	let rtol = 3.45e-5f;
+	math.fabsf(a - b) <= rtol * math.fmaxf(math.fabsf(a), math.fabsf(b))
+}
+
+// static rtol_f16 = 0.03125h;

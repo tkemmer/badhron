@@ -31,6 +31,7 @@ find_path(Badhron_ROOT_DIR
 )
 
 set(Badhron_IMPALA_FILES
+	${Badhron_ROOT_DIR}/src/impala/utils.impala
 	${Badhron_ROOT_DIR}/src/impala/reports.impala
 	${Badhron_ROOT_DIR}/src/impala/results.impala
 	${Badhron_ROOT_DIR}/src/impala/checks.impala
