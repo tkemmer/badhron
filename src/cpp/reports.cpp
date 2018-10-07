@@ -33,7 +33,7 @@ namespace badhron {
 			if(report.subgroup_ != ""s)
 				os << " (in subgroup "s << report.subgroup_ << ")"s;
 			os << '\n'
-			   << "   \033[1m"s << report.message_ << "\033[0m\n"s
+			   << "   \033[1mAssertion failed: "s << report.message_ << "\033[0m\n"s
 			   << "   Expected: "s;
 			visit([&os](auto&& arg){ os << arg; }, report.expected_);
 			os << '\n'

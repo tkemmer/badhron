@@ -27,7 +27,7 @@ fn badhron_check_bool_eq(name: &[u8], exp: bool, obs: bool) -> BadhronCheckFn {
 		name:   name,
 		check:  || exp == obs,
 		report: |r| r.add_bool_report(
-			"Assertion failed: value mismatch",
+			"value mismatch",
 			exp,
 			obs
 		)
@@ -39,7 +39,7 @@ fn badhron_check_int_eq(name: &[u8], exp: i64, obs: i64) -> BadhronCheckFn {
 		name:   name,
 		check:  || exp == obs,
 		report: |r| r.add_int_report(
-			"Assertion failed: value mismatch",
+			"value mismatch",
 			exp,
 			obs
 		)
@@ -51,7 +51,7 @@ fn badhron_check_uint_eq(name: &[u8], exp: u64, obs: u64) -> BadhronCheckFn {
 		name:   name,
 		check:  || exp == obs,
 		report: |r| r.add_uint_report(
-			"Assertion failed: value mismatch",
+			"value mismatch",
 			exp,
 			obs
 		)
@@ -126,7 +126,7 @@ fn badhron_assert_f64(res: BadhronResultHandler, exp: f64, body: fn() -> f64) ->
 			math.fabs(exp - obs) <= rtol * math.fmax(math.fabs(exp), math.fabs(obs))
 		},
 		report: |r| r.add_float_report(
-			"Assertion failed: value mismatch",
+			"value mismatch",
 			exp,
 			obs
 		)
@@ -143,7 +143,7 @@ fn badhron_assert_f32(res: BadhronResultHandler, exp: f32, body: fn() -> f32) ->
 			math.fabsf(exp - obs) <= rtol * math.fmaxf(math.fabsf(exp), math.fabsf(obs))
 		},
 		report: |r| r.add_float_report(
-			"Assertion failed: value mismatch",
+			"value mismatch",
 			exp as f64,
 			obs as f64
 		)
