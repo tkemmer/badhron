@@ -76,17 +76,21 @@ void badhron_print_suite(uint64_t suite) {
 }
 
 void badhron_add_bool_report(uint64_t suite, char* fn, char* subgrp, char* msg, bool exp, bool obs) {
-	badhron::suites[suite].add_report(badhron::report{fn, subgrp, msg, exp, obs});
+	using namespace std::string_literals;
+	badhron::suites[suite].add_report(badhron::report{fn, subgrp ? subgrp : ""s, msg, exp, obs});
 }
 
 void badhron_add_int_report(uint64_t suite, char* fn, char* subgrp, char* msg, int64_t exp, int64_t obs) {
-	badhron::suites[suite].add_report(badhron::report{fn, subgrp, msg, exp, obs});
+	using namespace std::string_literals;
+	badhron::suites[suite].add_report(badhron::report{fn, subgrp ? subgrp : ""s, msg, exp, obs});
 }
 
 void badhron_add_uint_report(uint64_t suite, char* fn, char* subgrp, char* msg, uint64_t exp, uint64_t obs) {
-	badhron::suites[suite].add_report(badhron::report{fn, subgrp, msg, exp, obs});
+	using namespace std::string_literals;
+	badhron::suites[suite].add_report(badhron::report{fn, subgrp ? subgrp : ""s, msg, exp, obs});
 }
 
 void badhron_add_float_report(uint64_t suite, char* fn, char* subgrp, char* msg, double exp, double obs) {
-	badhron::suites[suite].add_report(badhron::report{fn, subgrp, msg, exp, obs});
+	using namespace std::string_literals;
+	badhron::suites[suite].add_report(badhron::report{fn, subgrp ? subgrp : ""s, msg, exp, obs});
 }
