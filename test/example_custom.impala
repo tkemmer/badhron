@@ -29,22 +29,24 @@ fn assert_rational(exp: Rational, obs: Rational) -> BadhronCheckFn {
 	}
 }
 
-fn suite_functions(suite: BadhronSuite) -> () {
-	with suite.group("custom assertions") {
-		with suite.subgroup("Point2D") {
-			let p1 = Point2D{x: 1, y: 2};
-			let p2 = Point2D{x: 1, y: 2};
+extern fn main(i32, &[&[u8]]) -> i32 {
+	with suite in badhron_suite() {
+		with suite.group("custom assertions") {
+			with suite.subgroup("Point2D") {
+				let p1 = Point2D{x: 1, y: 2};
+				let p2 = Point2D{x: 1, y: 2};
 
-			with suite.assert() { assert_point2d(p1, p1) }
-			with suite.assert() { assert_point2d(p1, p2) }
-		}
+				with suite.assert() { assert_point2d(p1, p1) }
+				with suite.assert() { assert_point2d(p1, p2) }
+			}
 
-		with suite.subgroup("Rational") {
-			let r1 = Rational{num: 1, den: 2};
-			let r2 = Rational{num: 2, den: 4};
+			with suite.subgroup("Rational") {
+				let r1 = Rational{num: 1, den: 2};
+				let r2 = Rational{num: 2, den: 4};
 
-			with suite.assert() { assert_rational(r1, r1) }
-			with suite.assert() { assert_rational(r1, r2) }
+				with suite.assert() { assert_rational(r1, r1) }
+				with suite.assert() { assert_rational(r1, r2) }
+			}
 		}
 	}
 }

@@ -1,0 +1,34 @@
+extern fn main(i32, &[&[u8]]) -> i32 {
+	with suite in badhron_suite() {
+		with suite.group("pending") {
+			suite.pending("my_function1");
+		}
+
+		with suite.group("assertions") {
+			with suite.subgroup("bool") {
+				with suite.assert_true()      { 1 == 1 }
+				with suite.assert_false()     { 1 == 2 }
+				with suite.assert_bool(true)  { 1 == 1 }
+			}
+
+			with suite.subgroup("int") {
+				with suite.assert_i64(42_i64) { 2_i64 * 21_i64 }
+				with suite.assert_i32(42    ) { 2     * 21     }
+				with suite.assert_i16(42_i16) { 2_i16 * 21_i16 }
+				with suite.assert_i8 (42_i8 ) { 2_i8  * 21_i8  }
+			}
+
+			with suite.subgroup("uint") {
+				with suite.assert_u64(42_u64) { 2_u64 * 21_u64 }
+				with suite.assert_u32(42_u32) { 2u    * 21u    }
+				with suite.assert_u16(42_u16) { 2_u16 * 21_u16 }
+				with suite.assert_u8 (42_u8 ) { 2_u8  * 21_u8  }
+			}
+
+			with suite.subgroup("float") {
+				with suite.assert_f64(42.0)   { 4.0 * 10.5  }
+				with suite.assert_f32(42.f)   { 4.f * 10.5f }
+			}
+		}
+	}
+}

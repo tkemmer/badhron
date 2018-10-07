@@ -49,17 +49,27 @@ export(TARGETS badhron FILE ${CMAKE_BINARY_DIR}/share/badhron/cmake/badhron-expo
 
 #######################################################################################################################
 # Tests
-anydsl_runtime_wrap(Badhron_TEST_PROGRAM IMPALA_FLAGS ${Badhron_IMPALA_FLAGS} FILES
-	${Badhron_IMPALA_FILES}
-	test/simple.impala
-	test/functions.impala
-	test/main.impala
+enable_testing()
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test)
+
+set(Badhron_TESTS
+	example_builtin
+	example_custom
 )
 
-add_executable(badhron_test
-	${Badhron_TEST_PROGRAM}
-	test/main.cpp
-)
+foreach(badhron_test ${Badhron_TESTS})
+	anydsl_runtime_wrap(${badhron_test}_PROGRAM IMPALA_FLAGS ${Badhron_IMPALA_FLAGS} FILES
+		${Badhron_IMPALA_FILES}
+		test/${badhron_test}.impala
+	)
 
-target_link_libraries(badhron_test badhron ${AnyDSL_runtime_LIBRARIES})
-set_target_properties(badhron_test PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+	add_executable(${badhron_test}
+		${${badhron_test}_PROGRAM}
+		test/main.cpp
+	)
+
+	target_link_libraries(${badhron_test} badhron ${AnyDSL_runtime_LIBRARIES})
+	set_target_properties(${badhron_test} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+
+	add_test(${badhron_test} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${badhron_test})
+endforeach ()
