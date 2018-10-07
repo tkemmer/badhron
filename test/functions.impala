@@ -8,30 +8,43 @@ fn assert_point2d(exp: Point2D, obs: Point2D) -> BadhronCheckFn {
 		name:   "assert_point2d",
 		check:  || exp.x == obs.x && exp.y == obs.y,
 		report: |r| {
-			if exp.x != obs.x {
-				r.add_int_report(
-					"x-coordinate mismatch",
-					exp.x as i64,
-					obs.x as i64
-				);
-			}
-			if exp.y != obs.y {
-				r.add_int_report(
-					"y-coordinate mismatch",
-					exp.y as i64,
-					obs.y as i64
-				);
-			}
+			if exp.x != obs.x { r.add_int_report("x-coordinate mismatch", exp.x as i64, obs.x as i64) }
+			if exp.y != obs.y { r.add_int_report("y-coordinate mismatch", exp.y as i64, obs.y as i64) }
 		}
+	}
+}
+
+struct Rational {
+	num: i32,
+	den: i32
+}
+
+fn assert_rational(exp: Rational, obs: Rational) -> BadhronCheckFn {
+	let vexp = exp.num as f64 / exp.den as f64;
+	let vobs = obs.num as f64 / obs.den as f64;
+	BadhronCheckFn {
+		name:   "assert_rational",
+		check:  || badhron_approx_f64(vexp, vobs),
+		report: |r| r.add_float_report("value mismatch", vexp, vobs)
 	}
 }
 
 fn suite_functions(suite: BadhronSuite) -> () {
 	with suite.group("custom assertions") {
-		let p1 = Point2D{x: 1, y: 2};
-		let p2 = Point2D{x: 1, y: 2};
+		with suite.subgroup("Point2D") {
+			let p1 = Point2D{x: 1, y: 2};
+			let p2 = Point2D{x: 1, y: 2};
 
-		with suite.assert() { assert_point2d(p1, p1) }
-		with suite.assert() { assert_point2d(p1, p2) }
+			with suite.assert() { assert_point2d(p1, p1) }
+			with suite.assert() { assert_point2d(p1, p2) }
+		}
+
+		with suite.subgroup("Rational") {
+			let r1 = Rational{num: 1, den: 2};
+			let r2 = Rational{num: 2, den: 4};
+
+			with suite.assert() { assert_rational(r1, r1) }
+			with suite.assert() { assert_rational(r1, r2) }
+		}
 	}
 }
