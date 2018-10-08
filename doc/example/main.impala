@@ -1,0 +1,11 @@
+fn five() -> i32 {
+	5
+}
+
+fn main(i32, &[&[u8]]) -> i32 {
+	with suite in badhron_suite() {
+		with suite.group("all tests") {
+			with suite.assert_i32(5) { five() }
+		}
+	}
+}
