@@ -18,7 +18,7 @@ subject to breaking changes every once in a while.
  * [AnyDSL Runtime Library](https://github.com/AnyDSL/runtime)
 
 ### Installation
-```
+```sh
 git clone https://github.com/tkemmer/badhron.git
 mkdir badhron/build
 cd badhron/build
@@ -64,7 +64,7 @@ extern fn main(i32, &[&[u8]]) -> i32 {
 ```
 
 #### Output
-```
+```sh
 GRP first group
 ================================================================================
 2 PASSED ✓

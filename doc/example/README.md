@@ -1,7 +1,7 @@
 # How to use Badhron in a CMake project
 
 ## Build instructions
-```
+```sh
 mkdir build
 cd build
 cmake .. \
