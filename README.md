@@ -1,6 +1,87 @@
 # Badhron: Readable Tests for Impala
+Badhron is a simple test framwork for the [Impala](https://anydsl.github.io)
+language with the goal of supporting the creation of readable and logically
+organized test functions. It is loosely inspired by
+[FactCheck.jl](https://github.com/JuliaAttic/FactCheck.jl).
 
-## Built-in assertions
+Please bear in mind that this project is currently still in very early
+development. Consequently, its interface might and - most probably - will be
+subject to breaking changes every once in a while.
+
+
+## Getting started
+
+### Requirements
+ * [CMake 3.7](https://cmake.org) (or above)
+ * [GCC](https://gcc.gnu.org/) or [Clang](https://clang.llvm.org/)
+   (C++17-compatible)
+ * [AnyDSL Runtime Library](https://github.com/AnyDSL/runtime)
+
+### Installation
+```
+git clone https://github.com/tkemmer/badhron.git
+mkdir badhron/build
+cd badhron/build
+cmake ..
+```
+
+
+### Usage
+The recommended way of using Badhron is as part of a CMake project. See
+`doc/example` for an example application.
+
+
+## Introduction
+
+### Contexts
+In Badhron, tests are logically organized into groups (e.g., I/O functions,
+utility functions, etc.). Each group can be further partitioned into subgroups.
+
+#### Test program
+```rust
+extern fn main(i32, &[&[u8]]) -> i32 {
+
+	// initialize Badhron
+	with suite in badhron_suite() {
+
+		with suite.group("first group") {
+			// ... some testing
+		}
+
+		with suite.group("second group") {
+			// ... some more testing
+
+			with suite.subgroup("a subgroup") {
+				// ... these tests belong together
+			}
+
+			with suite.subgroup("another subgroup") {
+				// ... so do these tests here
+			}
+		}
+	}
+}
+```
+
+#### Output
+```
+GRP first group
+================================================================================
+2 PASSED ✓
+
+GRP second group
+================================================================================
+ > a subgroup (3 passed)
+ > another subgroup (4 passed)
+ + group checks (1 passed)
+================================================================================
+8 PASSED ✓
+```
+
+
+### Built-in assertions
+Badhron ships with assert functions for all fundamental Impala data types:
+
 ```rust
 extern fn main(i32, &[&[u8]]) -> i32 {
 	with suite in badhron_suite() {
@@ -38,7 +119,9 @@ extern fn main(i32, &[&[u8]]) -> i32 {
 }
 ```
 
-## Add your own assertions for custom types
+
+### Custom assertions
+Add your own assertions for custom types:
 ```rust
 struct Point2D {
 	x: i32,
