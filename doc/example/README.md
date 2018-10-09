@@ -5,6 +5,6 @@
 mkdir build
 cd build
 cmake .. \
-    -DAnyDSL_runtime_DIR=/<path to anydsl>/build/share/anydsl/runtime \
+    -DAnyDSL_runtime_DIR=/<path to anydsl>/build/share/anydsl/cmake \
     -DBadhron_DIR=/<path to badhron>/build/share/badhron/cmake
 ```
