@@ -40,7 +40,7 @@ namespace badhron {
 	}
 
 	ostream& operator<<(ostream& os, const suite& suite) {
-		for(auto& group: suite.groups_)
+		for(const auto& group: suite.groups_)
 			os << group << '\n';
 		return os;
 	}

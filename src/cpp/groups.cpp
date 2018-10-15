@@ -70,7 +70,7 @@ namespace badhron {
 		os << "\033[1mGRP\033[0m "s << group.name_ << '\n'
 		   << "================================================================================\n"s;
 		if(!group.subgroups_.empty()) {
-			for(auto& sub: group.subgroups_)
+			for(const auto& sub: group.subgroups_)
 				os << sub;
 			if(!group.result_.empty()) {
 				os << " + group checks"s;
@@ -79,7 +79,7 @@ namespace badhron {
 			os << "================================================================================\n"s;
 		}
 		if(!group.reports_.empty()) {
-			for(auto& rep: group.reports_)
+			for(const auto& rep: group.reports_)
 				os << rep;
 			os << "================================================================================\n"s;
 		}
