@@ -36,7 +36,7 @@ namespace badhron {
 		int32_t pending{0};
 	};
 
-	constexpr result &operator+(result first, const result &second) noexcept {
+	constexpr result operator+(result first, const result &second) noexcept {
 		return first += second;
 	}
 }
