@@ -3,6 +3,7 @@
 #include "reports.h"
 
 #include <memory>
+#include <numeric>
 #include <ostream>
 
 namespace badhron {
@@ -54,10 +55,9 @@ namespace badhron {
 	}
 
 	result group::total_result() const noexcept {
-		auto total = result_;
-		for(auto& sub: subgroups_)
-			total += sub.subgroup_result();
-		return total;
+		return std::accumulate(subgroups_.begin(), subgroups_.end(), result_, [](auto sum, const auto& sub) {
+			return sum + sub.subgroup_result();
+		});
 	}
 
 	void group::subgroup_result(result result) {
