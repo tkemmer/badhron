@@ -19,7 +19,7 @@ namespace badhron {
 		groups_.emplace_back(move(name));
 	}
 
-	void suite::add_subgroup(std::string name) {
+	void suite::add_subgroup(string name) {
 		if(!groups_.empty()) // TODO else
 			groups_.back().add_subgroup(move(name));
 	}
@@ -29,12 +29,12 @@ namespace badhron {
 			groups_.back().add_report(move(report));
 	}
 
-	void suite::group_result(result result) {
+	void suite::group_result(result result) noexcept {
 		if(!groups_.empty()) // TODO else
 			groups_.back().group_result(result);
 	}
 
-	void suite::subgroup_result(result result) {
+	void suite::subgroup_result(result result) noexcept {
 		if(!groups_.empty()) // TODO else
 			groups_.back().subgroup_result(result);
 	}

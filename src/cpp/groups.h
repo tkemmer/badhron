@@ -35,7 +35,7 @@ namespace badhron {
 		result total_result() const noexcept;
 
 		void group_result(result result) noexcept { result_ = result; }
-		void subgroup_result(result);
+		void subgroup_result(result) noexcept;
 
 		friend std::ostream& operator<<(std::ostream& os, const group& group);
 

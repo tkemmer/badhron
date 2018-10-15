@@ -23,7 +23,7 @@ namespace badhron {
 		report(const report&) = delete;
 		report(report&&) noexcept;
 
-		~report();
+		~report() noexcept;
 
 		report& operator=(const report&) = delete;
 		report& operator=(report&&) noexcept;

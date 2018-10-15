@@ -16,8 +16,8 @@ namespace badhron {
 		void add_subgroup(std::string name);
 		void add_report(report);
 
-		void group_result(result);
-		void subgroup_result(result);
+		void group_result(result) noexcept;
+		void subgroup_result(result) noexcept;
 
 		friend std::ostream& operator<<(std::ostream& os, const suite& suite);
 

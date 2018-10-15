@@ -60,7 +60,7 @@ namespace badhron {
 		});
 	}
 
-	void group::subgroup_result(result result) {
+	void group::subgroup_result(result result) noexcept {
 		if(!subgroups_.empty())
 			subgroups_.back().subgroup_result(result);
 	}
