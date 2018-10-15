@@ -98,7 +98,7 @@ namespace badhron {
 				os << "\033[1m"s << total.pending << " PENDING\033[0m"s;
 				break;
 			default:
-				break;
+				os << "\033[1m(no checks performed)\033[0m"s;
 		}
 		return os << '\n';
 	}
