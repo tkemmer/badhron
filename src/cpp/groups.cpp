@@ -87,11 +87,11 @@ namespace badhron {
 		switch(total.verdict()) {
 			case result::verdict::passed:
 				os << "\033[1m"s << total.passed << " PASSED ✓\033[0m"s;
-				print_short_summary(os, {0, total.failed, total.pending});
+				print_short_summary(os, result{0, total.failed, total.pending});
 				break;
 			case result::verdict::failed:
 				os << "\033[1m"s << total.failed << " FAILED\033[0m"s;
-				print_short_summary(os, {total.passed, 0, total.pending});
+				print_short_summary(os, result{total.passed, 0, total.pending});
 				break;
 
 			case result::verdict::pending:

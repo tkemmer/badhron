@@ -10,6 +10,21 @@ namespace badhron {
 			passed, failed, pending, none
 		};
 
+		constexpr result() noexcept :
+			passed{0},
+			failed{0},
+			pending{0} {
+		}
+
+		explicit constexpr result(int32_t passed, int32_t failed, int32_t pending) noexcept :
+				passed{passed},
+				failed{failed},
+				pending{pending} {
+		}
+
+		constexpr result(const result& other) noexcept = default;
+		constexpr result(result&& other) noexcept = default;
+
 		constexpr verdict verdict() const noexcept {
 			if (failed != 0)
 				return verdict::failed;
@@ -24,19 +39,22 @@ namespace badhron {
 			return passed + failed + pending == 0;
 		}
 
-		constexpr result &operator+=(const result &other) noexcept {
+		constexpr result& operator=(const result& other) noexcept = default;
+		constexpr result& operator=(result&& other) noexcept = default;
+
+		constexpr result& operator+=(const result& other) noexcept {
 			passed += other.passed;
 			failed += other.failed;
 			pending += other.pending;
 			return *this;
 		}
 
-		int32_t passed{0};
-		int32_t failed{0};
-		int32_t pending{0};
+		int32_t passed;
+		int32_t failed;
+		int32_t pending;
 	};
 
-	constexpr result operator+(result first, const result &second) noexcept {
+	constexpr result operator+(result first, const result& second) noexcept {
 		return first += second;
 	}
 }
