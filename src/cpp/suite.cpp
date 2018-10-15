@@ -41,7 +41,7 @@ namespace badhron {
 
 	ostream& operator<<(ostream& os, const suite& suite) {
 		for(auto& group: suite.groups_)
-			std::cout << group << '\n';
+			os << group << '\n';
 		return os;
 	}
 }
