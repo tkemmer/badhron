@@ -62,6 +62,11 @@ set(Badhron_TESTS
 	test_approx_f64
 	test_create_suite
 	test_delete_suite
+	test_pending
+	test_assert_bool
+	test_assert_int
+	test_assert_uint
+	test_assert_float
 	test_check_result
 	test_result_handler
 	test_result_handler_init
