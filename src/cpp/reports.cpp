@@ -66,7 +66,7 @@ namespace badhron {
 
 	report::report(report&&) noexcept = default;
 
-	report::~report() = default;
+	report::~report() noexcept = default;
 
 	report& report::operator=(badhron::report&&) noexcept = default;
 
