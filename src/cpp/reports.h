@@ -8,16 +8,16 @@
 
 namespace badhron {
 
-	using report_data = std::variant<bool, int64_t, uint64_t, double>;
-
 	class report {
 	public:
+		using data_t = std::variant<bool, int64_t, uint64_t, double>;
+
 		explicit report(
 			std::string function,
 			std::string subgroup,
 			std::string message,
-			report_data expected,
-			report_data observed
+			data_t      expected,
+			data_t      observed
 		);
 
 		report(const report&) = delete;

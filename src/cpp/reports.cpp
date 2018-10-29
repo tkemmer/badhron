@@ -12,11 +12,11 @@ namespace badhron {
 	class report::impl {
 	public:
 		explicit impl(
-			string      function,
-			string      subgroup,
-			string      message,
-			report_data expected,
-			report_data observed
+			string function,
+			string subgroup,
+			string message,
+			data_t expected,
+			data_t observed
 		) :
 			function_{move(function)},
 			subgroup_{move(subgroup)},
@@ -44,22 +44,22 @@ namespace badhron {
 		}
 
 	private:
-		string      function_;
-		string      subgroup_;
-		string      message_;
-		report_data expected_;
-		report_data observed_;
+		string function_;
+		string subgroup_;
+		string message_;
+		data_t expected_;
+		data_t observed_;
 	};
 
 
 	// ================================================================================================================
 	// report
 	report::report(
-		string      function,
-		string      subgroup,
-		string      message,
-		report_data expected,
-		report_data observed
+		string function,
+		string subgroup,
+		string message,
+		data_t expected,
+		data_t observed
 	) :
 		impl_{std::make_unique<report::impl>(move(function), move(subgroup), move(message), expected, observed)} {
 	}
