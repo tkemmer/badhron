@@ -1,0 +1,12 @@
+fn main(i32, &[&[u8]]) -> i32 {
+	let first  = badhron_create_suite();
+	let second = badhron_create_suite();
+
+	badhron_delete_suite(second);
+	badhron_delete_suite(first);
+
+	// double delete is noop
+	badhron_delete_suite(first);
+
+	0
+}

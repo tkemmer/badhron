@@ -1,0 +1,67 @@
+fn main(i32, &[&[u8]]) -> i32 {
+	let suite = badhron_create_suite();
+	let rh = badhron_new_result_handler(suite);
+	let mut ok = true;
+
+	// initial state
+	ok = ok && rh.split_name() == 0 as &[u8];
+
+	rh.begin_group("group");
+	rh.passed();
+	rh.pending();
+
+	// passed
+	rh.begin_split("split_passed");
+	rh.passed();
+	rh.passed();
+	ok = ok &&
+	     rh.split_name() != 0 as &[u8] &&
+	     result_equals(rh.end_split(), BadhronCheckResult{passed: 2, failed: 0, pending: 0}) &&
+	     rh.exit_status() == 0;
+
+	// group checks
+	rh.passed();
+	rh.failed();
+
+	// pending
+	rh.begin_split("split_pending");
+	rh.pending();
+	rh.pending();
+	ok = ok &&
+	     rh.split_name() != 0 as &[u8] &&
+	     result_equals(rh.end_split(), BadhronCheckResult{passed: 0, failed: 0, pending: 2}) &&
+	     rh.exit_status() != 0;
+
+	// failed
+	rh.begin_split("split_failed");
+	rh.failed();
+	rh.failed();
+	ok = ok &&
+	     rh.split_name() != 0 as &[u8] &&
+	     result_equals(rh.end_split(), BadhronCheckResult{passed: 0, failed: 2, pending: 0}) &&
+	     rh.exit_status() != 0;
+
+	// mixed
+	rh.begin_split("split_mixed");
+	rh.failed();
+	rh.passed();
+	rh.failed();
+	rh.pending();
+	rh.passed();
+	ok = ok &&
+	     rh.split_name() != 0 as &[u8] &&
+	     result_equals(rh.end_split(), BadhronCheckResult{passed: 2, failed: 2, pending: 1}) &&
+	     rh.exit_status() != 0;
+
+	// group results
+	rh.pending();
+	rh.pending();
+	ok = ok &&
+	     rh.split_name() == 0 as &[u8] &&
+	     result_equals(rh.end_group(), BadhronCheckResult{passed: 2, failed: 1, pending: 3}) &&
+	     rh.exit_status() != 0;
+
+	rh.print();
+	badhron_delete_suite(suite);
+	if ok { 0 } else { 1 }
+}

@@ -1,0 +1,11 @@
+fn main(i32, &[&[u8]]) -> i32 {
+	let suite = badhron_create_suite();
+	let rh = badhron_new_result_handler(suite);
+
+	let ok = rh.suite_id() == suite &&
+	         rh.exit_status() == 0;
+
+	rh.print();
+	badhron_delete_suite(suite);
+	if ok { 0 } else { 1 }
+}

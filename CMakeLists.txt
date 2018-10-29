@@ -58,11 +58,22 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test)
 set(Badhron_TESTS
 	example_builtin
 	example_custom
+	test_approx_f32
+	test_approx_f64
+	test_create_suite
+	test_delete_suite
+	test_check_result
+	test_result_handler
+	test_result_handler_init
+	test_result_handler_groups
+	test_result_handler_subgroups
+	test_result_handler_mixed
 )
 
 foreach(badhron_test ${Badhron_TESTS})
 	anydsl_runtime_wrap(${badhron_test}_PROGRAM IMPALA_FLAGS ${Badhron_IMPALA_FLAGS} FILES
 		${Badhron_IMPALA_FILES}
+		test/utils.impala
 		test/${badhron_test}.impala
 	)
 

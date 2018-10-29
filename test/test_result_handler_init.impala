@@ -1,0 +1,26 @@
+fn main(i32, &[&[u8]]) -> i32 {
+	let suite = badhron_create_suite();
+	let rh = badhron_new_result_handler(suite);
+	let mut ok = true;
+
+	// check initial state
+	ok = ok &&
+	     result_equals(rh.end_group(), badhron_new_check_result()) &&
+	     rh.exit_status() == 0;
+
+	// mess with the result handler
+	rh.passed();
+	rh.passed();
+	rh.failed(); // sets exit status != 0
+	rh.pending();
+
+	// starting a new group resets all previous results (but not the exit status!)
+	rh.begin_group("group1");
+	ok = ok &&
+	     result_equals(rh.end_group(), badhron_new_check_result()) &&
+	     rh.exit_status() != 0;
+
+	rh.print();
+	badhron_delete_suite(suite);
+	if ok { 0 } else { 1 }
+}

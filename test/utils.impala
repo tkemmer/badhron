@@ -1,0 +1,5 @@
+fn result_equals(res1: BadhronCheckResult, res2: BadhronCheckResult) -> bool {
+	res1.passed == res2.passed &&
+	res1.failed == res2.failed &&
+	res1.pending == res2.pending
+}

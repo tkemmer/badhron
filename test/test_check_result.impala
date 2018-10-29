@@ -1,0 +1,10 @@
+fn main(i32, &[&[u8]]) -> i32 {
+	if result_equals(
+		badhron_new_check_result(),
+		BadhronCheckResult{passed: 0, failed: 0, pending: 0}
+	) {
+		0
+	} else {
+		1
+	}
+}

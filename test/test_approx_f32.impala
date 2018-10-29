@@ -1,0 +1,15 @@
+fn main(i32, &[&[u8]]) -> i32 {
+	if  badhron_approx_f32(0.f, 0.f) &&
+	    badhron_approx_f32(0.f, -0.f) &&
+	    badhron_approx_f32(-0.f, 0.f) &&
+	    badhron_approx_f32(1.f, 5.f/5.f) &&
+	    badhron_approx_f32(-1.f, -5.f/5.f) &&
+	    badhron_approx_f32(9.9f, 10.f - 0.1f) &&
+	   !badhron_approx_f32(0.f, 0.00001f) &&
+	   !badhron_approx_f32(-1.f, 5.f/5.f) &&
+	   !badhron_approx_f32(1.f, -5.f/5.f) {
+		0
+	} else {
+		1
+	}
+}
