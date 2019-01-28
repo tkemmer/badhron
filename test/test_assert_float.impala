@@ -9,15 +9,17 @@ fn main(i32, &[&[u8]]) -> i32 {
 	with suite.assert_f64(0.)  { -0. }
 	with suite.assert_f64(42.) { 42. }
 	with suite.assert_f64(9.9) { 10. - 0.1 }
-	with suite.assert_f64(42.) { 42.000001 }
+	with suite.assert_f64(42.) { 42.0000001 } // borderline pass
+	with suite.assert_f64(42.) { 42.000001 }  // borderline fail
 
 	with suite.assert_f32(0.f)  { 0.f }
 	with suite.assert_f32(0.f)  { -0.f }
 	with suite.assert_f32(42.f) { 42.f }
 	with suite.assert_f32(9.9f) { 10.f - .1f }
-	with suite.assert_f32(42.f) { 42.01f }
+	with suite.assert_f32(42.f) { 42.001f } // borderline pass
+	with suite.assert_f32(42.f) { 42.01f }  // borderline fail
 
-	let ok = result_equals(rh.end_group(), BadhronCheckResult{passed: 8, failed: 2, pending: 0});
+	let ok = result_equals(rh.end_group(), BadhronCheckResult{passed: 10, failed: 2, pending: 0});
 
 	rh.print();
 	badhron_delete_suite(rh.suite_id());
