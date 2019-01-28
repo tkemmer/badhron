@@ -130,7 +130,7 @@ fn badhron_assert_f64(res: BadhronResultHandler, exp: f64, body: fn() -> f64) ->
 fn badhron_assert_f32(res: BadhronResultHandler, exp: f32, body: fn() -> f32) -> () {
 	let obs = body();
 	badhron_check(res, BadhronCheckFn{
-		name:   "badhron_assert_f64",
+		name:   "badhron_assert_f32",
 		check:  || badhron_approx_f32(exp, obs),
 		report: |r| r.add_float_report(
 			"value mismatch",
