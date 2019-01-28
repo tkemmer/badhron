@@ -29,6 +29,8 @@ namespace badhron {
 			using namespace std::string_literals;
 			if(std::holds_alternative<bool>(report.expected_))
 				os << std::boolalpha;
+			else if(std::holds_alternative<double>(report.expected_))
+				os << std::setprecision(15);
 			os << " # "s << report.function_;
 			if(report.subgroup_ != ""s)
 				os << " (in subgroup "s << report.subgroup_ << ")"s;
