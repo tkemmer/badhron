@@ -15,7 +15,7 @@ fn main(i32, &[&[u8]]) -> i32 {
 	with suite.assert_f32(0.f)  { -0.f }
 	with suite.assert_f32(42.f) { 42.f }
 	with suite.assert_f32(9.9f) { 10.f - .1f }
-	with suite.assert_f32(42.f) { 42.000001f }
+	with suite.assert_f32(42.f) { 42.01f }
 
 	let ok = result_equals(rh.end_group(), BadhronCheckResult{passed: 8, failed: 2, pending: 0});
 
