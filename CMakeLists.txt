@@ -7,7 +7,13 @@ project(Badhron
 	LANGUAGES    CXX
 )
 
+# Dependencies
 find_package(AnyDSL_runtime REQUIRED)
+
+# Set default properties for all targets
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS}         -Wall -Wextra -pedantic")
 set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   -fsanitize=address")
@@ -51,7 +57,6 @@ add_library(badhron SHARED
 )
 
 target_link_libraries(badhron ${AnyDSL_runtime_LIBRARIES})
-set_target_properties(badhron PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
 
 export(TARGETS badhron FILE "${CMAKE_BINARY_DIR}/share/badhron/cmake/badhron-exports.cmake")
 
@@ -94,7 +99,6 @@ foreach(badhron_test ${Badhron_TESTS})
 	)
 
 	target_link_libraries(${badhron_test} badhron ${AnyDSL_runtime_LIBRARIES})
-	set_target_properties(${badhron_test} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
 
 	add_test(${badhron_test} "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${badhron_test}")
 endforeach ()
