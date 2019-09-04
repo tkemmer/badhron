@@ -5,7 +5,7 @@
 # - Badhron_IMPALA_FILES   // source files to be included in your project's anydsl_runtime_wrap call
 # - Badhron_LIBRARIES      // Badhron libraries to be included in your project's target_link_libraries call
 
-cmake_minimum_required(VERSION 3.7 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.7)
 
 find_path(Badhron_DIR
 	NAMES
