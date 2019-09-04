@@ -63,7 +63,7 @@ export(TARGETS badhron FILE "${CMAKE_BINARY_DIR}/share/badhron/cmake/badhron-exp
 
 #######################################################################################################################
 # Tests
-enable_testing()
+include(CTest)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/test")
 
 set(Badhron_TESTS
