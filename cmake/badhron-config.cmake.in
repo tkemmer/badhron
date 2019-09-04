@@ -11,9 +11,9 @@ find_path(Badhron_DIR
 	NAMES
 		badhron-config.cmake
 	PATHS
-		${Badhron_DIR}
-		$ENV{Badhron_DIR}
-		${CMAKE_CURRENT_LIST_DIR}
+		"${Badhron_DIR}"
+		"$ENV{Badhron_DIR}"
+		"${CMAKE_CURRENT_LIST_DIR}"
 		"@CMAKE_CURRENT_BINARY_DIR@"
 		"@CMAKE_INSTALL_PREFIX@"
 )
@@ -24,23 +24,23 @@ find_path(Badhron_ROOT_DIR
 		src/impala/groups.impala
 		src/impala/results.impala
 	PATHS
-		${Badhron_ROOT_DIR}
-		$ENV{Badhron_ROOT_DIR}
+		"${Badhron_ROOT_DIR}"
+		"$ENV{Badhron_ROOT_DIR}"
 		"@CMAKE_CURRENT_SOURCE_DIR@"
 		"@CMAKE_SOURCE_DIR@"
 )
 
 set(Badhron_IMPALA_FILES
-	${Badhron_ROOT_DIR}/src/impala/utils.impala
-	${Badhron_ROOT_DIR}/src/impala/reports.impala
-	${Badhron_ROOT_DIR}/src/impala/results.impala
-	${Badhron_ROOT_DIR}/src/impala/checks.impala
-	${Badhron_ROOT_DIR}/src/impala/groups.impala
-	${Badhron_ROOT_DIR}/src/impala/badhron.impala
+	"${Badhron_ROOT_DIR}/src/impala/utils.impala"
+	"${Badhron_ROOT_DIR}/src/impala/reports.impala"
+	"${Badhron_ROOT_DIR}/src/impala/results.impala"
+	"${Badhron_ROOT_DIR}/src/impala/checks.impala"
+	"${Badhron_ROOT_DIR}/src/impala/groups.impala"
+	"${Badhron_ROOT_DIR}/src/impala/badhron.impala"
 )
 
 if(NOT TARGET badhron)
-	include(${Badhron_DIR}/badhron-exports.cmake)
+	include("${Badhron_DIR}/badhron-exports.cmake")
 endif()
 set(Badhron_LIBRARIES badhron;)
 

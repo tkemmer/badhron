@@ -29,8 +29,8 @@ set(Badhron_IMPALA_FILES
 
 #######################################################################################################################
 # Configuration file
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/share/badhron/cmake)
-configure_file(cmake/badhron-config.cmake.in ${CMAKE_BINARY_DIR}/share/badhron/cmake/badhron-config.cmake @ONLY)
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/share/badhron/cmake")
+configure_file(cmake/badhron-config.cmake.in "${CMAKE_BINARY_DIR}/share/badhron/cmake/badhron-config.cmake" @ONLY)
 
 
 #######################################################################################################################
@@ -53,13 +53,13 @@ add_library(badhron SHARED
 target_link_libraries(badhron ${AnyDSL_runtime_LIBRARIES})
 set_target_properties(badhron PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
 
-export(TARGETS badhron FILE ${CMAKE_BINARY_DIR}/share/badhron/cmake/badhron-exports.cmake)
+export(TARGETS badhron FILE "${CMAKE_BINARY_DIR}/share/badhron/cmake/badhron-exports.cmake")
 
 
 #######################################################################################################################
 # Tests
 enable_testing()
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/test")
 
 set(Badhron_TESTS
 	example_builtin
@@ -96,5 +96,5 @@ foreach(badhron_test ${Badhron_TESTS})
 	target_link_libraries(${badhron_test} badhron ${AnyDSL_runtime_LIBRARIES})
 	set_target_properties(${badhron_test} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
 
-	add_test(${badhron_test} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${badhron_test})
+	add_test(${badhron_test} "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${badhron_test}")
 endforeach ()
