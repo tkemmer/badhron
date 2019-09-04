@@ -12,7 +12,7 @@ subject to breaking changes every once in a while.
 ## Getting started
 
 ### Requirements
- * [CMake 3.7](https://cmake.org) (or above)
+ * [CMake 3.12](https://cmake.org) (or above)
  * [GCC](https://gcc.gnu.org/) or [Clang](https://clang.llvm.org/)
    (C++17-compatible)
  * [AnyDSL Runtime Library](https://github.com/AnyDSL/runtime)
