@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.12...3.14)
-project(Badhron CXX)
+
+project(Badhron
+	VERSION      0.1
+	DESCRIPTION  "Readable Tests for Impala"
+	HOMEPAGE_URL "https://github.com/tkemmer/badhron"
+	LANGUAGES    CXX
+)
 
 find_package(AnyDSL_runtime REQUIRED)
 
