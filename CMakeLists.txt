@@ -41,7 +41,7 @@ configure_file(cmake/badhron-config.cmake.in "${CMAKE_BINARY_DIR}/share/badhron/
 
 #######################################################################################################################
 # Library
-anydsl_runtime_wrap(Badhron_PROGRAM IMPALA_FLAGS ${badhron_IMPALA_FLAGS} FILES
+anydsl_runtime_wrap(Badhron_PROGRAM IMPALA_FLAGS ${Badhron_IMPALA_FLAGS} FILES
 	${Badhron_IMPALA_FILES}
 )
 
