@@ -33,4 +33,6 @@ add_subdirectory(src)
 
 # Tests
 include(CTest)
-add_subdirectory(test)
+if(BUILD_TESTING)
+	add_subdirectory(test)
+endif()
