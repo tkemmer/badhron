@@ -56,7 +56,7 @@ add_library(badhron SHARED
 	src/cpp/suite.cpp
 )
 
-target_link_libraries(badhron ${AnyDSL_runtime_LIBRARIES})
+target_link_libraries(badhron PUBLIC ${AnyDSL_runtime_LIBRARIES})
 
 export(TARGETS badhron FILE "${CMAKE_BINARY_DIR}/share/badhron/cmake/badhron-exports.cmake")
 
@@ -98,7 +98,7 @@ foreach(badhron_test ${Badhron_TESTS})
 		test/main.cpp
 	)
 
-	target_link_libraries(${badhron_test} badhron ${AnyDSL_runtime_LIBRARIES})
+	target_link_libraries(${badhron_test} badhron)
 
 	add_test(${badhron_test} "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${badhron_test}")
 endforeach ()
