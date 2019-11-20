@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12...3.14)
+cmake_minimum_required(VERSION 3.12...3.15)
 
 project(Badhron
 	VERSION      0.1
