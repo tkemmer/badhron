@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12...3.22)
 
 project(Badhron
-	VERSION      0.1
+	VERSION      0.2
 	DESCRIPTION  "Readable Tests for Impala"
 	HOMEPAGE_URL "https://github.com/tkemmer/badhron"
 	LANGUAGES    CXX
