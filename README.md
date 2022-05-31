@@ -4,10 +4,6 @@ language with the goal of supporting the creation of readable and logically
 organized test functions. It is loosely inspired by
 [FactCheck.jl](https://github.com/JuliaAttic/FactCheck.jl).
 
-Please bear in mind that this project is currently still in very early
-development. Consequently, its interface might and - most probably - will be
-subject to breaking changes every once in a while.
-
 
 ## Getting started
 
@@ -18,11 +14,25 @@ subject to breaking changes every once in a while.
  * [AnyDSL Runtime Library](https://github.com/AnyDSL/runtime)
 
 ### Installation
+In order to obtain the Badhron repository and build the Badhron library, 
+you can use the following commands:
 ```sh
 git clone https://github.com/tkemmer/badhron.git
 mkdir badhron/build
 cd badhron/build
 cmake ..
+make
+```
+If you installed the AnyDSL runtime library according to the build 
+instructions in the project's README file, you probably need to tell 
+CMake its location, e.g., by replacing the above `cmake` command by
+```sh
+cmake .. -DAnyDSL_runtime_DIR=/<path to anydsl>/runtime/build/share/anydsl/cmake
+```
+If the build process terminated successfully, you can install Badhron
+into a location of your choice using the following command:
+```sh
+cmake --install . --prefix=<preferred install path>
 ```
 
 

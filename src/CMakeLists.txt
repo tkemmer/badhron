@@ -12,17 +12,45 @@ anydsl_runtime_wrap(Badhron_PROGRAM IMPALA_FLAGS ${Badhron_IMPALA_FLAGS} FILES
 	${Badhron_IMPALA_FILES}
 )
 
-add_library(badhron SHARED
-	${Badhron_PROGRAM}
+set(Badhron_HEADER_FILES
 	cpp/groups.h
-	cpp/groups.cpp
 	cpp/reports.h
-	cpp/reports.cpp
 	cpp/results.h
 	cpp/suite.h
+)
+
+add_library(badhron SHARED
+	${Badhron_PROGRAM}
+	cpp/groups.cpp
+	cpp/reports.cpp
 	cpp/suite.cpp
 )
+set_target_properties(badhron PROPERTIES BUILD_WITH_INSTALL_RPATH true)
+set_target_properties(badhron PROPERTIES PUBLIC_HEADER "${Badhron_HEADER_FILES}")
 
 target_link_libraries(badhron PUBLIC ${AnyDSL_runtime_LIBRARIES})
 
-export(TARGETS badhron FILE "${CMAKE_BINARY_DIR}/share/badhron/cmake/badhron-exports.cmake")
+include(GNUInstallDirs)
+install(TARGETS badhron
+	EXPORT                    BadhronTargets
+	LIBRARY DESTINATION       ${CMAKE_INSTALL_LIBDIR}
+	PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/badhron
+)
+
+install(EXPORT BadhronTargets
+	FILE        BadhronTargets.cmake
+	NAMESPACE   Badhron::
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/badhron
+)
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file("BadhronConfigVersion.cmake"
+	VERSION       ${Badhron_VERSION}
+	COMPATIBILITY SameMajorVersion
+)
+
+install(FILES "../cmake/BadhronConfig.cmake" "${CMAKE_BINARY_DIR}/src/BadhronConfigVersion.cmake"
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/badhron
+)
+
+install(FILES ${Badhron_IMPALA_FILES} DESTINATION ${CMAKE_INSTALL_DATADIR}/badhron)
