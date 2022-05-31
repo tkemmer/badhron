@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12...3.14)
+cmake_minimum_required(VERSION 3.12...3.22)
 project(BadhronExample CXX)
 
 find_package(AnyDSL_runtime REQUIRED)
@@ -14,4 +14,4 @@ add_executable(badhron_example
 	main.cpp
 )
 
-target_link_libraries(badhron_example ${AnyDSL_runtime_LIBRARIES} ${Badhron_LIBRARIES})
+target_link_libraries(badhron_example ${AnyDSL_runtime_LIBRARIES} Badhron::badhron)
